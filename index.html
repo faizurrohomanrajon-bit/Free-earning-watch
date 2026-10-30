@@ -1,16 +1,379 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="bn">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Free Earning Watch</title>
+    <title>Free Earning Watch - Earn & Withdraw</title>
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cloudflare.com">
     <style>
-        body { font-family: Arial, sans-serif; text-align: center; margin-top: 50px; background-color: #121212; color: white; }
-        h1 { color: #4CAF50; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #0b0c0e;
+            color: #ffffff;
+            padding-bottom: 90px;
+        }
+
+        /* Top Bar Banner */
+        .top-banner {
+            background: linear-gradient(90deg, #bfff00, #a2da00);
+            color: #000000;
+            padding: 12px 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        /* Header / Balance section */
+        .header-container {
+            padding: 20px 15px;
+            background: linear-gradient(180deg, #161d10 0%, #0b0c0e 100%);
+        }
+
+        .user-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .user-info {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .icon-box {
+            background-color: #1c2317;
+            padding: 10px;
+            border-radius: 50%;
+            color: #bfff00;
+        }
+
+        .menu-burger {
+            font-size: 24px;
+            color: #fff;
+        }
+
+        .balance-title {
+            color: #888;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+
+        .balance-amount {
+            font-size: 32px;
+            font-weight: bold;
+            color: #ffffff;
+            margin-top: 2px;
+        }
+
+        /* Main Content Cards */
+        .main-card {
+            background-color: #13191c;
+            border-radius: 24px 24px 0 0;
+            padding: 25px 15px;
+            min-height: 400px;
+        }
+
+        /* Pages (Hidden by default, toggled via JS) */
+        .page {
+            display: none;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        .section-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            text-align: left;
+            color: #ffffff;
+        }
+
+        /* Watch Page Specific Elements */
+        .watch-box {
+            text-align: center;
+            padding: 30px 15px;
+        }
+
+        .watch-title {
+            font-size: 26px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+        }
+
+        .watch-desc {
+            color: #aaa;
+            font-size: 14px;
+            margin-bottom: 25px;
+        }
+
+        .btn-watch {
+            background-color: #bfff00;
+            color: #000;
+            font-size: 18px;
+            font-weight: bold;
+            padding: 16px 40px;
+            border: none;
+            border-radius: 30px;
+            width: 100%;
+            max-width: 280px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(191, 255, 0, 0.3);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .info-row {
+            background-color: #1c2529;
+            border-radius: 15px;
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        .btn-more {
+            background-color: #334147;
+            color: #fff;
+            border: none;
+            padding: 8px 18px;
+            border-radius: 20px;
+            font-size: 14px;
+        }
+
+        /* Withdraw Page Gateways */
+        .gateway-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 15px;
+        }
+
+        .gateway-card {
+            background-color: #1c2529;
+            border: 2px solid transparent;
+            border-radius: 16px;
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .gateway-card.selected {
+            border-color: #bfff00;
+            background-color: #222d32;
+        }
+
+        .gateway-details {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .gateway-logo {
+            width: 45px;
+            height: 45px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #fff;
+            font-size: 14px;
+        }
+
+        .bg-bkash { background-color: #e2125d; }
+        .bg-nagad { background-color: #f16522; }
+        .bg-binance { background-color: #f3ba2f; color: #000; }
+
+        .gateway-info h4 {
+            font-size: 16px;
+            margin-bottom: 4px;
+        }
+
+        .gateway-info p {
+            font-size: 12px;
+            color: #aaa;
+        }
+
+        .radio-circle {
+            width: 20px;
+            height: 20px;
+            border: 2px solid #555;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .gateway-card.selected .radio-circle {
+            border-color: #bfff00;
+        }
+
+        .gateway-card.selected .radio-circle::after {
+            content: "";
+            width: 10px;
+            height: 10px;
+            background-color: #bfff00;
+            border-radius: 50%;
+        }
+
+        /* Withdraw Form */
+        .withdraw-form {
+            margin-top: 25px;
+            background-color: #1c2529;
+            padding: 20px;
+            border-radius: 16px;
+            display: none;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 14px;
+            color: #ccc;
+            margin-bottom: 8px;
+        }
+
+        .form-group input {
+            width: 100%;
+            background-color: #0b0c0e;
+            border: 1px solid #444;
+            color: #fff;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 15px;
+            outline: none;
+        }
+
+        .form-group input:focus {
+            border-color: #bfff00;
+        }
+
+        .btn-submit-withdraw {
+            background-color: #bfff00;
+            color: #000;
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        /* Fixed Bottom Navigation Bar */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: #ffffff;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 10px 0;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.3);
+            z-index: 100;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: #555555;
+            text-decoration: none;
+            font-size: 11px;
+            font-weight: bold;
+            background: none;
+            border: none;
+            cursor: pointer;
+            width: 20%;
+        }
+
+        .nav-item i {
+            font-size: 20px;
+            margin-bottom: 4px;
+        }
+
+        .nav-item.active {
+            color: #000000;
+        }
+
+        /* Center Watch Button */
+        .nav-item.center-watch .watch-circle {
+            background-color: #bfff00;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #000;
+            font-size: 22px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            margin-bottom: 2px;
+        }
     </style>
 </head>
 <body>
-    <h1>Welcome to Free Earning Watch</h1>
-    <p>This site is under construction. Stay tuned!</p>
-</body>
-</html>
+
+    <!-- Top Banner -->
+    <div class="top-banner">
+        <div>💰 নতুন কাজ: ব্যালেন্সে ডলারে পুরস্কার</div>
+        <div style="font-size: 12px;"><i class="fa-solid fa-chevron-right"></i></div>
+    </div>
+
+    <!-- Header / Balance Section -->
+    <div class="header-container">
+        <div class="user-row">
+            <div class="user-info">
+                <div class="icon-box"><i class="fa-solid fa-table-cells-large"></i></div>
+                <div class="icon-box"><i class="fa-solid fa-user"></i></div>
+            </div>
+            <div class="menu-burger"><i class="fa-solid fa-bars"></i></div>
+        </div>
+
+        <div class="balance-title">ব্যালেন্স</div>
+        <div class="balance-amount" id="main-balance">$0.0193324</div>
+    </div>
+
+    <!-- Main Card Body -->
+    <div class="main-card">
+        
+        <!-- PAGE 1: WATCH (Default) -->
+        <div id="page-watch" class="page active">
+            <div class="watch-box">
+                <div class="watch-title">YOUTUBE ভিউ</div>
+                <div class="watch-desc">YouTube-এ ছোট ভিডিও দেখে অর্থ উপার্জন করুন</div>
+                
+                <button class="btn-watch" onclick="startWatch()">
+                    <i class="fa-solid fa-play"></i> ভিডিও দেখুন
+                </button>
+                <div style="color: #777; font-size: 13px; margin-top: 12px;">দেখার সময়কাল: ১৫ সেকেন্ড</div>
+            </div>
+
+            <div class="info-row">
+    
