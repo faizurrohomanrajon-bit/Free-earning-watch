@@ -1,808 +1,379 @@
+HTML
 
 <!DOCTYPE html>
 <html lang="bn">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#0b0c0e">
+  <meta name="theme-color" content="#101827">
   <title>Free Earning Watch</title>
 
-  <!-- Font Awesome Icons -->
-  <link rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: Arial, "Noto Sans Bengali", sans-serif;
-    }
-
+    * { box-sizing: border-box; }
     body {
-      background: #0b0c0e;
-      color: #fff;
-      padding-bottom: 90px;
+      margin: 0;
+      background: #101827;
+      color: #f8fafc;
+      font-family: Arial, sans-serif;
     }
-
-    button, input, select {
-      font: inherit;
+    .container { max-width: 520px; margin: auto; padding: 18px; }
+    h1 { font-size: 26px; text-align: center; color: #4ade80; }
+    h2 { font-size: 21px; }
+    .card {
+      background: #1e293b;
+      padding: 18px;
+      border-radius: 14px;
+      margin: 14px 0;
     }
-
+    input, select {
+      width: 100%;
+      padding: 13px;
+      margin: 8px 0;
+      border: 1px solid #475569;
+      border-radius: 9px;
+      background: #0f172a;
+      color: white;
+      font-size: 16px;
+    }
     button {
+      padding: 12px;
+      border: 0;
+      border-radius: 9px;
+      background: #22c55e;
+      color: #052e16;
+      font-weight: bold;
+      font-size: 15px;
       cursor: pointer;
     }
-
-    .top-banner {
-      padding: 13px 16px;
-      background: #bfff00;
-      color: #111;
-      display: flex;
-      justify-content: space-between;
-      font-size: 13px;
-      font-weight: bold;
-    }
-
-    .header {
-      padding: 22px 18px 28px;
-      background: linear-gradient(180deg, #1b2512, #0b0c0e);
-    }
-
-    .header-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 25px;
-    }
-
-    .brand {
-      font-size: 19px;
-      font-weight: bold;
-    }
-
-    .brand span {
-      color: #bfff00;
-    }
-
-    .profile-icon {
-      background: #26321b;
-      color: #bfff00;
-      padding: 12px;
-      border-radius: 50%;
-    }
-
-    .balance-label {
-      font-size: 13px;
-      color: #aaa;
-      margin-bottom: 6px;
-    }
-
-    .balance {
-      font-size: 34px;
-      font-weight: bold;
-      overflow-wrap: anywhere;
-    }
-
-    .points {
-      color: #bfff00;
-      margin-top: 8px;
-      font-size: 14px;
-    }
-
-    .main-card {
-      background: #13191c;
-      border-radius: 25px 25px 0 0;
-      min-height: 480px;
-      padding: 24px 16px;
-    }
-
-    .page {
-      display: none;
-    }
-
-    .page.active {
-      display: block;
-    }
-
-    .section-title {
-      font-size: 23px;
-      margin-bottom: 8px;
-    }
-
-    .muted {
-      color: #aaa;
-      font-size: 13px;
-      line-height: 1.7;
-    }
-
-    .card {
-      background: #1c2529;
-      border-radius: 16px;
-      padding: 18px;
-      margin-top: 16px;
-    }
-
-    .stats {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      margin-top: 20px;
-    }
-
-    .stat-card {
-      background: #1c2529;
-      border-radius: 15px;
-      padding: 17px 13px;
-    }
-
-    .stat-card i {
-      color: #bfff00;
-      font-size: 20px;
-      margin-bottom: 12px;
-    }
-
-    .stat-card p {
-      font-size: 12px;
-      color: #aaa;
-      margin-bottom: 8px;
-    }
-
-    .stat-card h3 {
-      font-size: 20px;
-      overflow-wrap: anywhere;
-    }
-
-    .primary-btn {
-      background: #bfff00;
-      color: #101010;
-      font-weight: bold;
-      border: none;
-      border-radius: 12px;
-      padding: 14px 16px;
-      width: 100%;
-      margin-top: 15px;
-    }
-
-    .secondary-btn {
-      background: #303d42;
-      color: white;
-      border: 1px solid #465358;
-      border-radius: 10px;
-      padding: 12px;
-    }
-
-    .watch-box {
-      text-align: center;
-      padding: 20px 5px;
-    }
-
-    .watch-icon {
-      margin: 12px auto 20px;
-      width: 85px;
-      height: 85px;
-      border-radius: 50%;
-      background: #26321b;
-      color: #bfff00;
-      display: grid;
-      place-items: center;
-      font-size: 34px;
-    }
-
-    .watch-box h2 {
-      font-size: 25px;
-      margin-bottom: 10px;
-    }
-
-    .timer {
-      color: #bfff00;
-      font-size: 28px;
-      font-weight: bold;
-      margin: 18px 0;
-    }
-
-    .task-row, .history-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 12px;
-      padding: 14px 0;
-      border-bottom: 1px solid #344045;
-    }
-
-    .task-row:last-child, .history-row:last-child {
-      border-bottom: none;
-    }
-
-    .task-icon {
-      color: #bfff00;
-      font-size: 22px;
-      width: 32px;
-      text-align: center;
-    }
-
-    .task-info {
-      flex: 1;
-      min-width: 0;
-    }
-
-    .task-info strong {
-      font-size: 14px;
-    }
-
-    .task-info p {
-      font-size: 12px;
-      color: #aaa;
-      margin-top: 5px;
-    }
-
-    .gateway {
-      background: #1c2529;
-      border: 2px solid transparent;
-      border-radius: 14px;
-      padding: 16px;
-      display: flex;
-      align-items: center;
-      gap: 13px;
-      margin-top: 12px;
-    }
-
-    .gateway.selected {
-      border-color: #bfff00;
-    }
-
-    .gateway input {
-      accent-color: #bfff00;
-    }
-
-    .gateway-logo {
-      width: 43px;
-      height: 43px;
-      border-radius: 10px;
-      display: grid;
-      place-items: center;
-      font-weight: bold;
-      color: white;
-    }
-
-    .bkash { background: #e2136e; }
-    .nagad { background: #f16522; }
-    .usdt { background: #26a17b; }
-
-    .gateway-info {
-      flex: 1;
-    }
-
-    .gateway-info p {
-      color: #aaa;
-      font-size: 12px;
-      margin-top: 5px;
-    }
-
-    .field {
-      margin-top: 17px;
-    }
-
-    .field label {
-      display: block;
-      font-size: 13px;
-      margin-bottom: 8px;
-      color: #ddd;
-    }
-
-    .field input, .field select {
-      width: 100%;
-      background: #0b0c0e;
-      border: 1px solid #465358;
-      border-radius: 9px;
-      color: white;
-      padding: 13px;
-      outline: none;
-    }
-
-    .field input:focus, .field select:focus {
-      border-color: #bfff00;
-    }
-
-    .notice {
-      background: #292e1e;
-      color: #d8e7b4;
-      padding: 12px;
-      border-radius: 10px;
-      font-size: 12px;
-      line-height: 1.7;
-      margin-top: 16px;
-    }
-
-    .referral-link {
-      overflow-wrap: anywhere;
-      color: #bfff00;
-      font-size: 13px;
-      line-height: 1.8;
-    }
-
-    .empty {
-      text-align: center;
-      padding: 30px 10px;
-      color: #aaa;
-      font-size: 13px;
-    }
-
-    .bottom-nav {
-      position: fixed;
-      z-index: 10;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      background: #fff;
-      display: flex;
-      justify-content: space-around;
-      padding: 9px 0 max(9px, env(safe-area-inset-bottom));
-      box-shadow: 0 -3px 15px #0005;
-    }
-
-    .nav-item {
-      border: none;
-      background: transparent;
-      color: #666;
-      width: 20%;
-      font-size: 11px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 5px;
-    }
-
-    .nav-item i {
-      font-size: 20px;
-    }
-
-    .nav-item.active {
-      color: #111;
-      font-weight: bold;
-    }
-
-    .nav-item.active i {
-      color: #689000;
-    }
-
-    .nav-item.center i {
-      background: #bfff00;
-      color: #111;
-      border-radius: 50%;
-      width: 42px;
-      height: 42px;
-      display: grid;
-      place-items: center;
-      margin-top: -18px;
-      border: 4px solid white;
-    }
-
-    .small {
-      font-size: 11px;
-      color: #aaa;
-      line-height: 1.7;
-    }
+    .full { width: 100%; margin-top: 8px; }
+    .secondary { background: #334155; color: white; }
+    .nav { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+    .nav button { background: #334155; color: white; }
+    .hidden { display: none !important; }
+    .muted { color: #cbd5e1; font-size: 14px; line-height: 1.6; }
+    .balance { font-size: 30px; color: #4ade80; font-weight: bold; }
+    #message { white-space: pre-wrap; overflow-wrap: anywhere; }
+    .warning { color: #fbbf24; }
   </style>
 </head>
 
 <body>
-  <div class="top-banner">
-    <span><i class="fa-solid fa-gift"></i> Free Earning Watch</span>
-    <span>USER DEMO</span>
+<div class="container">
+  <h1>Free Earning Watch</h1>
+  <p class="muted" style="text-align:center">
+    আপনার অ্যাকাউন্ট তৈরি করুন অথবা লগইন করুন
+  </p>
+
+  <div id="auth">
+    <div class="card">
+      <h2 id="authTitle">Create Account</h2>
+
+      <div id="nameBox">
+        <input id="name" placeholder="আপনার নাম" maxlength="80">
+      </div>
+
+      <input id="email" type="email" placeholder="Email address"
+        autocomplete="email">
+      <input id="password" type="password" placeholder="Password"
+        autocomplete="current-password" minlength="8">
+
+      <button class="full" id="submitAuth" onclick="submitAuth()">
+        Sign Up
+      </button>
+
+      <button class="full secondary" id="switchAuth" onclick="switchMode()">
+        আগে অ্যাকাউন্ট আছে? Login করুন
+      </button>
+
+      <p class="muted">
+        নিজের ইমেইল ব্যবহার করুন। পাসওয়ার্ড কাউকে দেবেন না।
+      </p>
+    </div>
   </div>
 
-  <header class="header">
-    <div class="header-row">
-      <div class="brand">FREE <span>EARNING WATCH</span></div>
-      <div class="profile-icon"><i class="fa-solid fa-user"></i></div>
+  <div id="app" class="hidden">
+    <div class="card">
+      <p class="muted">স্বাগতম</p>
+      <h2 id="userName">User</h2>
+      <p class="muted">আপনার ব্যালেন্স</p>
+      <div class="balance"><span id="points">0</span> Points</div>
+      <p class="muted">আপনার অ্যাকাউন্টের পয়েন্ট</p>
     </div>
 
-    <div class="balance-label">ডেমো ব্যালেন্স (আসল টাকা নয়)</div>
-    <div class="balance" id="balance">$0.0000</div>
-    <div class="points">
-      <i class="fa-solid fa-coins"></i>
-      <span id="points">0</span> Points
+    <div class="nav">
+      <button onclick="showPage('home')">Home</button>
+      <button onclick="showPage('tasks')">Tasks</button>
+      <button onclick="showPage('invite')">Invite</button>
+      <button onclick="showPage('withdraw')">Withdraw</button>
+      <button onclick="showPage('profile')">Profile</button>
+      <button onclick="logout()">Logout</button>
     </div>
-  </header>
 
-  <main class="main-card">
-
-    <!-- DASHBOARD -->
-    <section class="page active" id="page-home">
-      <h2 class="section-title">Dashboard</h2>
-      <p class="muted">তোমার ডেমো অ্যাকাউন্টের সারাংশ।</p>
-
-      <div class="stats">
-        <div class="stat-card">
-          <i class="fa-solid fa-coins"></i>
-          <p>মোট পয়েন্ট</p>
-          <h3 id="stat-points">0</h3>
-        </div>
-        <div class="stat-card">
-          <i class="fa-solid fa-list-check"></i>
-          <p>সম্পন্ন টাস্ক</p>
-          <h3 id="stat-tasks">0</h3>
-        </div>
-      </div>
-
-      <div class="card">
-        <h3><i class="fa-solid fa-circle-info"></i> স্বাগতম!</h3>
-        <p class="muted" style="margin-top:10px">
-          Tasks থেকে ডেমো কাজ দেখো। Invite থেকে রেফারেল লিংক
-          কপি করো। Withdraw থেকে ডেমো উইথড্র ফর্ম পরীক্ষা করো।
-        </p>
-        <button class="primary-btn" onclick="showPage('tasks')">
-          <i class="fa-solid fa-arrow-right"></i> কাজ দেখুন
-        </button>
-      </div>
-
-      <div class="notice">
-        সতর্কতা: এই সাইটে এখনো লগইন, সার্ভার বা আসল পেমেন্ট
-        সিস্টেম যুক্ত নেই। ডেটা এই ব্রাউজারেই সংরক্ষিত থাকে।
-      </div>
+    <section id="home" class="card">
+      <h2>Dashboard</h2>
+      <p class="muted">
+        আপনার অ্যাকাউন্ট সফলভাবে সংযুক্ত হয়েছে।
+        এখান থেকে বিভিন্ন অপশন দেখতে পারবেন।
+      </p>
+      <button class="full" onclick="showPage('tasks')">View Tasks</button>
     </section>
 
-    <!-- TASKS -->
-    <section class="page" id="page-tasks">
-      <h2 class="section-title">Tasks</h2>
-      <p class="muted">ডেমো কাজ ও টাইমার পরীক্ষা করো।</p>
-
-      <div class="card">
-        <div class="task-row">
-          <div class="task-icon"><i class="fa-solid fa-play"></i></div>
-          <div class="task-info">
-            <strong>ভিডিও টাইমার ডেমো</strong>
-            <p>১৫ সেকেন্ডের টাইমার পরীক্ষা</p>
-          </div>
-          <span>DEMO</span>
-        </div>
-
-        <div class="watch-box">
-          <div class="watch-icon">
-            <i class="fa-solid fa-circle-play"></i>
-          </div>
-          <h2>ভিডিও ডেমো</h2>
-          <p class="muted">
-            এই বাটন প্রকৃত ভিডিও বা বিজ্ঞাপন চালায় না।
-          </p>
-          <div class="timer" id="timer">00:15</div>
-          <button class="primary-btn" id="watch-button" onclick="startWatch()">
-            <i class="fa-solid fa-play"></i> টাইমার শুরু করুন
-          </button>
-          <p class="small" id="watch-message" style="margin-top:12px">
-            ডেমো পরীক্ষার জন্য তৈরি।
-          </p>
-        </div>
-      </div>
+    <section id="tasks" class="card hidden">
+      <h2>Tasks</h2>
+      <p class="muted">
+        এখানে অনুমোদিত বিজ্ঞাপন ও টাস্ক যোগ করা হবে।
+        বর্তমানে কোনো বাস্তব পুরস্কার চালু নেই।
+      </p>
+      <button class="full secondary" disabled>Tasks Coming Soon</button>
     </section>
 
-    <!-- INVITE -->
-    <section class="page" id="page-invite">
-      <h2 class="section-title">Invite Friends</h2>
-      <p class="muted">তোমার রেফারেল লিংক।</p>
-
-      <div class="card">
-        <div class="watch-icon">
-          <i class="fa-solid fa-user-plus"></i>
-        </div>
-        <h3>বন্ধুদের আমন্ত্রণ জানাও</h3>
-        <p class="muted" style="margin-top:10px">
-          নিচের লিংকটি কপি করে শেয়ার করতে পারো।
-        </p>
-        <div class="referral-link" id="ref-link" style="margin-top:15px"></div>
-        <button class="primary-btn" onclick="copyReferral()">
-          <i class="fa-solid fa-copy"></i> লিংক কপি করুন
-        </button>
-        <p class="small" id="ref-message" style="margin-top:10px"></p>
-      </div>
-
-      <div class="notice">
-        এটি শুধু লিংক তৈরির ডেমো। নতুন ব্যবহারকারী শনাক্ত করা
-        বা রেফারেল কমিশন দেওয়ার জন্য ব্যাকএন্ড লাগবে।
-      </div>
+    <section id="invite" class="card hidden">
+      <h2>Invite Friends</h2>
+      <p class="muted">আপনার User ID:</p>
+      <input id="refId" readonly>
+      <button class="full" onclick="copyRef()">Copy User ID</button>
+      <p class="muted">
+        এটি আপাতত আপনার User ID। রেফারেল লিংক ও ১০% কমিশনের
+        ব্যবস্থা পরের ধাপে নিরাপদভাবে তৈরি করতে হবে।
+      </p>
     </section>
 
-    <!-- WITHDRAW -->
-    <section class="page" id="page-withdraw">
-      <h2 class="section-title">Withdraw</h2>
-      <p class="muted">ডেমো টাকা তোলার ফর্ম।</p>
-
-      <div class="card">
-        <p class="muted">বর্তমান ডেমো পয়েন্ট</p>
-        <h2 style="margin-top:8px" id="withdraw-points">0</h2>
-      </div>
-
-      <form id="withdraw-form">
-        <p class="muted" style="margin-top:20px">
-          পেমেন্ট পদ্ধতি নির্বাচন করো
-        </p>
-
-        <label class="gateway selected">
-          <input type="radio" name="gateway" value="bKash" checked>
-          <span class="gateway-logo bkash">bK</span>
-          <span class="gateway-info">
-            <strong>bKash</strong>
-            <p>বিকাশ নম্বর</p>
-          </span>
-        </label>
-
-        <label class="gateway">
-          <input type="radio" name="gateway" value="Nagad">
-          <span class="gateway-logo nagad">N</span>
-          <span class="gateway-info">
-            <strong>Nagad</strong>
-            <p>নগদ নম্বর</p>
-          </span>
-        </label>
-
-        <label class="gateway">
-          <input type="radio" name="gateway" value="USDT">
-          <span class="gateway-logo usdt">T</span>
-          <span class="gateway-info">
-            <strong>USDT</strong>
-            <p>ক্রিপ্টো ওয়ালেট ঠিকানা</p>
-          </span>
-        </label>
-
-        <div class="field">
-          <label for="amount">পরিমাণ (ডেমো পয়েন্ট)</label>
-          <input id="amount" type="number" min="1"
-            step="1" placeholder="যেমন: 1000" required>
-        </div>
-
-        <div class="field">
-          <label for="account">পেমেন্ট নম্বর / ওয়ালেট ঠিকানা</label>
-          <input id="account" type="text" maxlength="150"
-            placeholder="ডেমো তথ্য লিখুন" required>
-        </div>
-
-        <button class="primary-btn" type="submit">
-          <i class="fa-solid fa-paper-plane"></i>
-          ডেমো রিকোয়েস্ট তৈরি করুন
-        </button>
-      </form>
-
-      <div class="notice">
-        কোনো টাকা পাঠানো হবে না। এই ডেমো ফর্মে সংবেদনশীল
-        আসল পেমেন্ট তথ্য দিও না। বাস্তব উইথড্রের জন্য নিরাপদ
-        সার্ভার, যাচাই ও অ্যাডমিন অনুমোদন প্রয়োজন।
-      </div>
-
-      <div class="card">
-        <h3>ডেমো রিকোয়েস্ট হিস্ট্রি</h3>
-        <div id="withdraw-history" class="muted" style="margin-top:12px">
-          এখনো কোনো রিকোয়েস্ট নেই।
-        </div>
-      </div>
+    <section id="withdraw" class="card hidden">
+      <h2>Withdraw</h2>
+      <p class="muted">
+        bKash, Nagad ও USDT-এর টাকা তোলার অনুরোধের ফর্ম
+        পরের ধাপে ডেটাবেসের সঙ্গে যুক্ত করা হবে।
+      </p>
+      <p class="warning">
+        বর্তমানে কোনো টাকা তোলার অনুরোধ জমা হয় না।
+      </p>
+      <select id="method">
+        <option value="bKash">bKash</option>
+        <option value="Nagad">Nagad</option>
+        <option value="USDT">USDT</option>
+      </select>
+      <input id="account" placeholder="পেমেন্ট অ্যাকাউন্ট / ওয়ালেট">
+      <input id="amount" type="number" min="1" placeholder="পয়েন্ট">
+      <button class="full secondary" disabled>
+        Withdrawal Setup Pending
+      </button>
     </section>
 
-    <!-- PROFILE -->
-    <section class="page" id="page-profile">
-      <h2 class="section-title">Profile</h2>
-      <p class="muted">ব্রাউজারের ডেমো প্রোফাইল।</p>
-
-      <div class="card">
-        <div class="watch-icon">
-          <i class="fa-solid fa-user"></i>
-        </div>
-        <h3>Demo User</h3>
-        <p class="muted" style="margin-top:8px">
-          লগইন ব্যবস্থা এখনো যুক্ত করা হয়নি।
-        </p>
-        <div class="task-row" style="margin-top:15px">
-          <span>পয়েন্ট</span>
-          <strong id="profile-points">0</strong>
-        </div>
-        <button class="secondary-btn" style="width:100%;margin-top:16px"
-          onclick="resetDemo()">
-          ডেমো ডেটা রিসেট
-        </button>
-      </div>
+    <section id="profile" class="card hidden">
+      <h2>My Profile</h2>
+      <p id="profileEmail" class="muted"></p>
+      <p id="profileId" class="muted"></p>
+      <button class="full secondary" onclick="loadProfile()">
+        Refresh Profile
+      </button>
     </section>
+  </div>
 
-  </main>
+  <div class="card">
+    <p id="message" class="muted" role="status"></p>
+  </div>
+</div>
 
-  <!-- BOTTOM NAVIGATION -->
-  <nav class="bottom-nav">
-    <button class="nav-item active" data-page="home"
-      onclick="showPage('home')">
-      <i class="fa-solid fa-house"></i>
-      <span>Home</span>
-    </button>
+<script>
+  // Supabase Dashboard থেকে Project URL ও Publishable Key বসান।
+  // sb_secret_ বা service_role key এখানে কখনো বসাবেন না।
+  const SUPABASE_URL = "PASTE_YOUR_SUPABASE_PROJECT_URL";
+  const SUPABASE_KEY = "PASTE_YOUR_SUPABASE_PUBLISHABLE_KEY";
 
-    <button class="nav-item" data-page="tasks"
-      onclick="showPage('tasks')">
-      <i class="fa-solid fa-list-check"></i>
-      <span>Tasks</span>
-    </button>
+  let db = null;
+  let currentUser = null;
+  let mode = "signup";
 
-    <button class="nav-item center" data-page="tasks"
-      onclick="showPage('tasks')">
-      <i class="fa-solid fa-play"></i>
-      <span>Watch</span>
-    </button>
+  const $ = id => document.getElementById(id);
 
-    <button class="nav-item" data-page="invite"
-      onclick="showPage('invite')">
-      <i class="fa-solid fa-user-plus"></i>
-      <span>Invite</span>
-    </button>
+  function message(text) {
+    $("message").textContent = text;
+  }
 
-    <button class="nav-item" data-page="withdraw"
-      onclick="showPage('withdraw')">
-      <i class="fa-solid fa-wallet"></i>
-      <span>Withdraw</span>
-    </button>
-  </nav>
+  function configured() {
+    return SUPABASE_URL.startsWith("https://") &&
+      !SUPABASE_URL.includes("PASTE_YOUR") &&
+      !SUPABASE_KEY.includes("PASTE_YOUR") &&
+      SUPABASE_KEY.length > 20;
+  }
 
-  <script>
-    // ডেমো তথ্য: এই ডেটা শুধু বর্তমান ব্রাউজারে থাকে।
-    const STORAGE_KEY = "few_demo_v1";
-
-    function loadState() {
-      try {
-        const saved = localStorage.getItem(STORAGE_KEY);
-        if (saved) {
-          const parsed = JSON.parse(saved);
-          if (
-            Number.isFinite(parsed.points) &&
-            Number.isFinite(parsed.tasks) &&
-            Array.isArray(parsed.requests)
-          ) return parsed;
-        }
-      } catch (error) {}
-
-      return { points: 0, tasks: 0, requests: [] };
-    }
-
-    let state = loadState();
-    let watchInterval = null;
-    let secondsLeft = 15;
-
-    function saveState() {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-      render();
-    }
-
-    function render() {
-      document.getElementById("points").textContent =
-        state.points.toLocaleString("en-US");
-
-      document.getElementById("stat-points").textContent =
-        state.points.toLocaleString("en-US");
-
-      document.getElementById("withdraw-points").textContent =
-        state.points.toLocaleString("en-US");
-
-      document.getElementById("profile-points").textContent =
-        state.points.toLocaleString("en-US");
-
-      document.getElementById("stat-tasks").textContent =
-        state.tasks.toLocaleString("en-US");
-
-      // শুধু UI প্রদর্শনের জন্য। এটি আসল ডলার ব্যালেন্স নয়।
-      document.getElementById("balance").textContent =
-        "$" + (state.points * 0.0001).toFixed(4);
-
-      const history = document.getElementById("withdraw-history");
-
-      if (!state.requests.length) {
-        history.textContent = "এখনো কোনো রিকোয়েস্ট নেই।";
-      } else {
-        history.replaceChildren();
-
-        state.requests.slice().reverse().forEach(function (req) {
-          const row = document.createElement("div");
-          row.className = "history-row";
-
-          const details = document.createElement("div");
-          const title = document.createElement("strong");
-          const subtitle = document.createElement("p");
-
-          title.textContent = req.method + " — " + req.amount + " points";
-          subtitle.className = "small";
-          subtitle.textContent = req.date + " · DEMO ONLY";
-
-          details.append(title, subtitle);
-          row.append(details);
-          history.append(row);
-        });
-      }
-
-      document.getElementById("ref-link").textContent =
-        location.href.split("#")[0].split("?")[0] +
-        "?ref=DEMO123";
-    }
-
-    function showPage(name) {
-      document.querySelectorAll(".page").forEach(function (page) {
-        page.classList.remove("active");
-      });
-
-      const target = document.getElementById("page-" + name);
-      if (target) target.classList.add("active");
-
-      document.querySelectorAll(".nav-item").forEach(function (button) {
-        button.classList.toggle(
-          "active",
-          button.dataset.page === name
-        );
-      });
-
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    }
-
-    function startWatch() {
-      if (watchInterval) return;
-
-      secondsLeft = 15;
-      const button = document.getElementById("watch-button");
-      const timer = document.getElementById("timer");
-      const message = document.getElementById("watch-message");
-
-      button.disabled = true;
-      button.textContent = "টাইমার চলছে...";
-      message.textContent = "ডেমো টাইমার চলছে। এতে কোনো পুরস্কার নেই।";
-
-      timer.textContent = "00:15";
-
-      watchInterval = setInterval(function () {
-        secondsLeft--;
-
-        timer.textContent = "00:" +
-          String(Math.max(secondsLeft, 0)).padStart(2, "0");
-
-        if (secondsLeft <= 0) {
-          clearInterval(watchInterval);
-          watchInterval = null;
-
-          button.disabled = false;
-          button.innerHTML =
-            '<i class="fa-solid fa-rotate-right"></i> আবার শুরু করুন';
-
-          message.textContent =
-            "ডেমো টাইমার শেষ হয়েছে। কোনো পয়েন্ট যোগ হয়নি।";
-        }
-      }, 1000);
-    }
-
-    async function copyReferral() {
-      const link = document.getElementById("ref-link").textContent;
-      const message = document.getElementById("ref-message");
-
-      try {
-        await navigator.clipboard.writeText(link);
-        message.textContent = "লিংক কপি হয়েছে।";
-      } catch (error) {
-        message.textContent = "লিংকটি নির্বাচন করে কপি করো: " + link;
-      }
-    }
-
-    document.querySelectorAll('input[name="gateway"]').forEach(
-      function (input) {
-        input.addEventListener("change", function () {
-          document.querySelectorAll(".gateway").forEach(function (card) {
-            card.classList.remove("selected");
-          });
-          input.closest(".gateway").classList.add("selected");
-        });
-      }
+  if (configured() && window.supabase) {
+    db = window.supabase.createClient(
+      SUPABASE_URL,
+      SUPABASE_KEY
     );
 
-    document.getElementById("withdraw-form").addEventListener(
-      "submit", function (event) {
-        event.preventDefault();
+    db.auth.onAuthStateChange((event, session) => {
+      setTimeout(async () => {
+        if (session?.user) {
+          currentUser = session.user;
+          await loadProfile();
+        } else {
+          currentUser = null;
+          $("auth").classList.remove("hidden");
+          $("app").classList.add("hidden");
+        }
+      }, 0);
+    });
 
-        const amount = Number(document.getElementById("amount").value);
-        const account = document.getElementById("account").value.trim();
-        const method = document.querySelector(
-          'input[name="gateway"]:checked'
-        ).value;
+    db.auth.getSession().then(({ data, error }) => {
+      if (error) message(error.message);
+      else if (data.session) {
+        currentUser = data.session.user;
+        loadProfile();
+      }
+    });
+  } else {
+    message("প্রথমে কোডের SUPABASE_URL এবং SUPABASE_KEY পূরণ করুন।");
+  }
 
-        if (!Number.isSafeInteger(amount) || amount <= 0) {
-          alert("সঠিক পূর্ণসংখ্যার পয়েন্ট লিখুন।");
+  function switchMode() {
+    mode = mode === "signup" ? "login" : "signup";
+    $("authTitle").textContent =
+      mode === "signup" ? "Create Account" : "Login";
+    $("submitAuth").textContent =
+      mode === "signup" ? "Sign Up" : "Login";
+    $("switchAuth").textContent =
+      mode === "signup"
+        ? "আগে অ্যাকাউন্ট আছে? Login করুন"
+        : "নতুন অ্যাকাউন্ট তৈরি করুন";
+    $("nameBox").classList.toggle("hidden", mode === "login");
+    message("");
+  }
+
+  async function submitAuth() {
+    if (!db) {
+      message("Supabase URL ও Publishable Key ঠিকভাবে বসান।");
+      return;
+    }
+
+    const email = $("email").value.trim();
+    const password = $("password").value;
+    const name = $("name").value.trim();
+
+    if (!email || !password) {
+      message("Email ও Password পূরণ করুন।");
+      return;
+    }
+
+    if (password.length < 8) {
+      message("পাসওয়ার্ড কমপক্ষে ৮ অক্ষরের দিন।");
+      return;
+    }
+
+    $("submitAuth").disabled = true;
+    message("অপেক্ষা করুন...");
+
+    try {
+      let result;
+
+      if (mode === "signup") {
+        if (!name) {
+          message("আপনার নাম লিখুন।");
           return;
         }
 
-        if (!account || account.length > 150) {
-          a
+        result = await db.auth.signUp({
+          email,
+          password,
+          options: {
+            data: { name }
+          }
+        });
+
+        if (result.error) throw result.error;
+
+        if (result.data.session) {
+          currentUser = result.data.user;
+          await loadProfile();
+        } else {
+          message(
+            "অ্যাকাউন্ট তৈরি হয়েছে। ইমেইল নিশ্চিত করার বার্তা " +
+            "এলে সেটি অনুসরণ করুন, তারপর Login করুন।"
+          );
+        }
+      } else {
+        result = await db.auth.signInWithPassword({
+          email,
+          password
+        });
+
+        if (result.error) throw result.error;
+        currentUser = result.data.user;
+        await loadProfile();
+      }
+    } catch (error) {
+      message("সমস্যা: " + (error.message || "আবার চেষ্টা করুন।"));
+    } finally {
+      $("submitAuth").disabled = false;
+    }
+  }
+
+  async function loadProfile() {
+    if (!db || !currentUser) return;
+
+    $("auth").classList.add("hidden");
+    $("app").classList.remove("hidden");
+    $("userName").textContent =
+      currentUser.user_metadata?.name || "User";
+    $("profileEmail").textContent =
+      "Email: " + (currentUser.email || "");
+    $("profileId").textContent =
+      "User ID: " + currentUser.id;
+    $("refId").value = currentUser.id;
+
+    try {
+      const { data, error } = await db
+        .from("profiles")
+        .select("display_name,balance_points")
+        .eq("id", currentUser.id)
+        .single();
+
+      if (error) throw error;
+
+      $("points").textContent = data.balance_points ?? 0;
+      if (data.display_name) {
+        $("userName").textContent = data.display_name;
+      }
+      message("প্রোফাইল সফলভাবে লোড হয়েছে।");
+    } catch (error) {
+      $("points").textContent = "—";
+      message(
+        "প্রোফাইল লোড হয়নি। Supabase-এর profiles টেবিল ও " +
+        "RLS নীতিমালা পরীক্ষা করুন। " + error.message
+      );
+    }
+  }
+
+  function showPage(page) {
+    ["home", "tasks", "invite", "withdraw", "profile"]
+      .forEach(id => $(id).classList.toggle("hidden", id !== page));
+  }
+
+  async function copyRef() {
+    try {
+      await navigator.clipboard.writeText($("refId").value);
+      message("User ID কপি হয়েছে।");
+    } catch {
+      $("refId").select();
+      message("ID নির্বাচন করা হয়েছে; Copy ব্যবহার করুন।");
+    }
+  }
+
+  async function logout() {
+    if (!db) return;
+    const { error } = await db.auth.signOut();
+    if (error) message(error.message);
+    else {
+      currentUser = null;
+      $("app").classList.add("hidden");
+      $("auth").classList.remove("hidden");
+      message("আপনি Logout করেছেন।");
+    }
+  }
+</script>
+</body>
+  </html>
+        
