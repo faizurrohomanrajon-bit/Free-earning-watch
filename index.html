@@ -1,379 +1,808 @@
+
 <!DOCTYPE html>
 <html lang="bn">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Free Earning Watch - Earn & Withdraw</title>
-    <!-- FontAwesome for Icons -->
-    <link rel="stylesheet" href="https://cloudflare.com">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0b0c0e">
+  <title>Free Earning Watch</title>
 
-        body {
-            background-color: #0b0c0e;
-            color: #ffffff;
-            padding-bottom: 90px;
-        }
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 
-        /* Top Bar Banner */
-        .top-banner {
-            background: linear-gradient(90deg, #bfff00, #a2da00);
-            color: #000000;
-            padding: 12px 15px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-weight: bold;
-            font-size: 14px;
-        }
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, "Noto Sans Bengali", sans-serif;
+    }
 
-        /* Header / Balance section */
-        .header-container {
-            padding: 20px 15px;
-            background: linear-gradient(180deg, #161d10 0%, #0b0c0e 100%);
-        }
+    body {
+      background: #0b0c0e;
+      color: #fff;
+      padding-bottom: 90px;
+    }
 
-        .user-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-        }
+    button, input, select {
+      font: inherit;
+    }
 
-        .user-info {
-            display: flex;
-            gap: 10px;
-            align-items: center;
-        }
+    button {
+      cursor: pointer;
+    }
 
-        .icon-box {
-            background-color: #1c2317;
-            padding: 10px;
-            border-radius: 50%;
-            color: #bfff00;
-        }
+    .top-banner {
+      padding: 13px 16px;
+      background: #bfff00;
+      color: #111;
+      display: flex;
+      justify-content: space-between;
+      font-size: 13px;
+      font-weight: bold;
+    }
 
-        .menu-burger {
-            font-size: 24px;
-            color: #fff;
-        }
+    .header {
+      padding: 22px 18px 28px;
+      background: linear-gradient(180deg, #1b2512, #0b0c0e);
+    }
 
-        .balance-title {
-            color: #888;
-            font-size: 12px;
-            margin-top: 5px;
-        }
+    .header-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 25px;
+    }
 
-        .balance-amount {
-            font-size: 32px;
-            font-weight: bold;
-            color: #ffffff;
-            margin-top: 2px;
-        }
+    .brand {
+      font-size: 19px;
+      font-weight: bold;
+    }
 
-        /* Main Content Cards */
-        .main-card {
-            background-color: #13191c;
-            border-radius: 24px 24px 0 0;
-            padding: 25px 15px;
-            min-height: 400px;
-        }
+    .brand span {
+      color: #bfff00;
+    }
 
-        /* Pages (Hidden by default, toggled via JS) */
-        .page {
-            display: none;
-        }
+    .profile-icon {
+      background: #26321b;
+      color: #bfff00;
+      padding: 12px;
+      border-radius: 50%;
+    }
 
-        .page.active {
-            display: block;
-        }
+    .balance-label {
+      font-size: 13px;
+      color: #aaa;
+      margin-bottom: 6px;
+    }
 
-        .section-title {
-            font-size: 24px;
-            font-weight: bold;
-            margin-bottom: 15px;
-            text-align: left;
-            color: #ffffff;
-        }
+    .balance {
+      font-size: 34px;
+      font-weight: bold;
+      overflow-wrap: anywhere;
+    }
 
-        /* Watch Page Specific Elements */
-        .watch-box {
-            text-align: center;
-            padding: 30px 15px;
-        }
+    .points {
+      color: #bfff00;
+      margin-top: 8px;
+      font-size: 14px;
+    }
 
-        .watch-title {
-            font-size: 26px;
-            font-weight: bold;
-            margin-bottom: 10px;
-            letter-spacing: 1px;
-        }
+    .main-card {
+      background: #13191c;
+      border-radius: 25px 25px 0 0;
+      min-height: 480px;
+      padding: 24px 16px;
+    }
 
-        .watch-desc {
-            color: #aaa;
-            font-size: 14px;
-            margin-bottom: 25px;
-        }
+    .page {
+      display: none;
+    }
 
-        .btn-watch {
-            background-color: #bfff00;
-            color: #000;
-            font-size: 18px;
-            font-weight: bold;
-            padding: 16px 40px;
-            border: none;
-            border-radius: 30px;
-            width: 100%;
-            max-width: 280px;
-            cursor: pointer;
-            box-shadow: 0 4px 15px rgba(191, 255, 0, 0.3);
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-        }
+    .page.active {
+      display: block;
+    }
 
-        .info-row {
-            background-color: #1c2529;
-            border-radius: 15px;
-            padding: 15px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-top: 20px;
-        }
+    .section-title {
+      font-size: 23px;
+      margin-bottom: 8px;
+    }
 
-        .btn-more {
-            background-color: #334147;
-            color: #fff;
-            border: none;
-            padding: 8px 18px;
-            border-radius: 20px;
-            font-size: 14px;
-        }
+    .muted {
+      color: #aaa;
+      font-size: 13px;
+      line-height: 1.7;
+    }
 
-        /* Withdraw Page Gateways */
-        .gateway-list {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            margin-top: 15px;
-        }
+    .card {
+      background: #1c2529;
+      border-radius: 16px;
+      padding: 18px;
+      margin-top: 16px;
+    }
 
-        .gateway-card {
-            background-color: #1c2529;
-            border: 2px solid transparent;
-            border-radius: 16px;
-            padding: 15px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
+    .stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 20px;
+    }
 
-        .gateway-card.selected {
-            border-color: #bfff00;
-            background-color: #222d32;
-        }
+    .stat-card {
+      background: #1c2529;
+      border-radius: 15px;
+      padding: 17px 13px;
+    }
 
-        .gateway-details {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
+    .stat-card i {
+      color: #bfff00;
+      font-size: 20px;
+      margin-bottom: 12px;
+    }
 
-        .gateway-logo {
-            width: 45px;
-            height: 45px;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            color: #fff;
-            font-size: 14px;
-        }
+    .stat-card p {
+      font-size: 12px;
+      color: #aaa;
+      margin-bottom: 8px;
+    }
 
-        .bg-bkash { background-color: #e2125d; }
-        .bg-nagad { background-color: #f16522; }
-        .bg-binance { background-color: #f3ba2f; color: #000; }
+    .stat-card h3 {
+      font-size: 20px;
+      overflow-wrap: anywhere;
+    }
 
-        .gateway-info h4 {
-            font-size: 16px;
-            margin-bottom: 4px;
-        }
+    .primary-btn {
+      background: #bfff00;
+      color: #101010;
+      font-weight: bold;
+      border: none;
+      border-radius: 12px;
+      padding: 14px 16px;
+      width: 100%;
+      margin-top: 15px;
+    }
 
-        .gateway-info p {
-            font-size: 12px;
-            color: #aaa;
-        }
+    .secondary-btn {
+      background: #303d42;
+      color: white;
+      border: 1px solid #465358;
+      border-radius: 10px;
+      padding: 12px;
+    }
 
-        .radio-circle {
-            width: 20px;
-            height: 20px;
-            border: 2px solid #555;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
+    .watch-box {
+      text-align: center;
+      padding: 20px 5px;
+    }
 
-        .gateway-card.selected .radio-circle {
-            border-color: #bfff00;
-        }
+    .watch-icon {
+      margin: 12px auto 20px;
+      width: 85px;
+      height: 85px;
+      border-radius: 50%;
+      background: #26321b;
+      color: #bfff00;
+      display: grid;
+      place-items: center;
+      font-size: 34px;
+    }
 
-        .gateway-card.selected .radio-circle::after {
-            content: "";
-            width: 10px;
-            height: 10px;
-            background-color: #bfff00;
-            border-radius: 50%;
-        }
+    .watch-box h2 {
+      font-size: 25px;
+      margin-bottom: 10px;
+    }
 
-        /* Withdraw Form */
-        .withdraw-form {
-            margin-top: 25px;
-            background-color: #1c2529;
-            padding: 20px;
-            border-radius: 16px;
-            display: none;
-        }
+    .timer {
+      color: #bfff00;
+      font-size: 28px;
+      font-weight: bold;
+      margin: 18px 0;
+    }
 
-        .form-group {
-            margin-bottom: 15px;
-        }
+    .task-row, .history-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 0;
+      border-bottom: 1px solid #344045;
+    }
 
-        .form-group label {
-            display: block;
-            font-size: 14px;
-            color: #ccc;
-            margin-bottom: 8px;
-        }
+    .task-row:last-child, .history-row:last-child {
+      border-bottom: none;
+    }
 
-        .form-group input {
-            width: 100%;
-            background-color: #0b0c0e;
-            border: 1px solid #444;
-            color: #fff;
-            padding: 12px;
-            border-radius: 8px;
-            font-size: 15px;
-            outline: none;
-        }
+    .task-icon {
+      color: #bfff00;
+      font-size: 22px;
+      width: 32px;
+      text-align: center;
+    }
 
-        .form-group input:focus {
-            border-color: #bfff00;
-        }
+    .task-info {
+      flex: 1;
+      min-width: 0;
+    }
 
-        .btn-submit-withdraw {
-            background-color: #bfff00;
-            color: #000;
-            width: 100%;
-            padding: 14px;
-            border: none;
-            border-radius: 8px;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-            margin-top: 10px;
-        }
+    .task-info strong {
+      font-size: 14px;
+    }
 
-        /* Fixed Bottom Navigation Bar */
-        .bottom-nav {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            background-color: #ffffff;
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            padding: 10px 0;
-            box-shadow: 0 -2px 10px rgba(0,0,0,0.3);
-            z-index: 100;
-        }
+    .task-info p {
+      font-size: 12px;
+      color: #aaa;
+      margin-top: 5px;
+    }
 
-        .nav-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            color: #555555;
-            text-decoration: none;
-            font-size: 11px;
-            font-weight: bold;
-            background: none;
-            border: none;
-            cursor: pointer;
-            width: 20%;
-        }
+    .gateway {
+      background: #1c2529;
+      border: 2px solid transparent;
+      border-radius: 14px;
+      padding: 16px;
+      display: flex;
+      align-items: center;
+      gap: 13px;
+      margin-top: 12px;
+    }
 
-        .nav-item i {
-            font-size: 20px;
-            margin-bottom: 4px;
-        }
+    .gateway.selected {
+      border-color: #bfff00;
+    }
 
-        .nav-item.active {
-            color: #000000;
-        }
+    .gateway input {
+      accent-color: #bfff00;
+    }
 
-        /* Center Watch Button */
-        .nav-item.center-watch .watch-circle {
-            background-color: #bfff00;
-            width: 48px;
-            height: 48px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #000;
-            font-size: 22px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-            margin-bottom: 2px;
-        }
-    </style>
+    .gateway-logo {
+      width: 43px;
+      height: 43px;
+      border-radius: 10px;
+      display: grid;
+      place-items: center;
+      font-weight: bold;
+      color: white;
+    }
+
+    .bkash { background: #e2136e; }
+    .nagad { background: #f16522; }
+    .usdt { background: #26a17b; }
+
+    .gateway-info {
+      flex: 1;
+    }
+
+    .gateway-info p {
+      color: #aaa;
+      font-size: 12px;
+      margin-top: 5px;
+    }
+
+    .field {
+      margin-top: 17px;
+    }
+
+    .field label {
+      display: block;
+      font-size: 13px;
+      margin-bottom: 8px;
+      color: #ddd;
+    }
+
+    .field input, .field select {
+      width: 100%;
+      background: #0b0c0e;
+      border: 1px solid #465358;
+      border-radius: 9px;
+      color: white;
+      padding: 13px;
+      outline: none;
+    }
+
+    .field input:focus, .field select:focus {
+      border-color: #bfff00;
+    }
+
+    .notice {
+      background: #292e1e;
+      color: #d8e7b4;
+      padding: 12px;
+      border-radius: 10px;
+      font-size: 12px;
+      line-height: 1.7;
+      margin-top: 16px;
+    }
+
+    .referral-link {
+      overflow-wrap: anywhere;
+      color: #bfff00;
+      font-size: 13px;
+      line-height: 1.8;
+    }
+
+    .empty {
+      text-align: center;
+      padding: 30px 10px;
+      color: #aaa;
+      font-size: 13px;
+    }
+
+    .bottom-nav {
+      position: fixed;
+      z-index: 10;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: #fff;
+      display: flex;
+      justify-content: space-around;
+      padding: 9px 0 max(9px, env(safe-area-inset-bottom));
+      box-shadow: 0 -3px 15px #0005;
+    }
+
+    .nav-item {
+      border: none;
+      background: transparent;
+      color: #666;
+      width: 20%;
+      font-size: 11px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .nav-item i {
+      font-size: 20px;
+    }
+
+    .nav-item.active {
+      color: #111;
+      font-weight: bold;
+    }
+
+    .nav-item.active i {
+      color: #689000;
+    }
+
+    .nav-item.center i {
+      background: #bfff00;
+      color: #111;
+      border-radius: 50%;
+      width: 42px;
+      height: 42px;
+      display: grid;
+      place-items: center;
+      margin-top: -18px;
+      border: 4px solid white;
+    }
+
+    .small {
+      font-size: 11px;
+      color: #aaa;
+      line-height: 1.7;
+    }
+  </style>
 </head>
-<body>
 
-    <!-- Top Banner -->
-    <div class="top-banner">
-        <div>💰 নতুন কাজ: ব্যালেন্সে ডলারে পুরস্কার</div>
-        <div style="font-size: 12px;"><i class="fa-solid fa-chevron-right"></i></div>
+<body>
+  <div class="top-banner">
+    <span><i class="fa-solid fa-gift"></i> Free Earning Watch</span>
+    <span>USER DEMO</span>
+  </div>
+
+  <header class="header">
+    <div class="header-row">
+      <div class="brand">FREE <span>EARNING WATCH</span></div>
+      <div class="profile-icon"><i class="fa-solid fa-user"></i></div>
     </div>
 
-    <!-- Header / Balance Section -->
-    <div class="header-container">
-        <div class="user-row">
-            <div class="user-info">
-                <div class="icon-box"><i class="fa-solid fa-table-cells-large"></i></div>
-                <div class="icon-box"><i class="fa-solid fa-user"></i></div>
-            </div>
-            <div class="menu-burger"><i class="fa-solid fa-bars"></i></div>
+    <div class="balance-label">ডেমো ব্যালেন্স (আসল টাকা নয়)</div>
+    <div class="balance" id="balance">$0.0000</div>
+    <div class="points">
+      <i class="fa-solid fa-coins"></i>
+      <span id="points">0</span> Points
+    </div>
+  </header>
+
+  <main class="main-card">
+
+    <!-- DASHBOARD -->
+    <section class="page active" id="page-home">
+      <h2 class="section-title">Dashboard</h2>
+      <p class="muted">তোমার ডেমো অ্যাকাউন্টের সারাংশ।</p>
+
+      <div class="stats">
+        <div class="stat-card">
+          <i class="fa-solid fa-coins"></i>
+          <p>মোট পয়েন্ট</p>
+          <h3 id="stat-points">0</h3>
+        </div>
+        <div class="stat-card">
+          <i class="fa-solid fa-list-check"></i>
+          <p>সম্পন্ন টাস্ক</p>
+          <h3 id="stat-tasks">0</h3>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3><i class="fa-solid fa-circle-info"></i> স্বাগতম!</h3>
+        <p class="muted" style="margin-top:10px">
+          Tasks থেকে ডেমো কাজ দেখো। Invite থেকে রেফারেল লিংক
+          কপি করো। Withdraw থেকে ডেমো উইথড্র ফর্ম পরীক্ষা করো।
+        </p>
+        <button class="primary-btn" onclick="showPage('tasks')">
+          <i class="fa-solid fa-arrow-right"></i> কাজ দেখুন
+        </button>
+      </div>
+
+      <div class="notice">
+        সতর্কতা: এই সাইটে এখনো লগইন, সার্ভার বা আসল পেমেন্ট
+        সিস্টেম যুক্ত নেই। ডেটা এই ব্রাউজারেই সংরক্ষিত থাকে।
+      </div>
+    </section>
+
+    <!-- TASKS -->
+    <section class="page" id="page-tasks">
+      <h2 class="section-title">Tasks</h2>
+      <p class="muted">ডেমো কাজ ও টাইমার পরীক্ষা করো।</p>
+
+      <div class="card">
+        <div class="task-row">
+          <div class="task-icon"><i class="fa-solid fa-play"></i></div>
+          <div class="task-info">
+            <strong>ভিডিও টাইমার ডেমো</strong>
+            <p>১৫ সেকেন্ডের টাইমার পরীক্ষা</p>
+          </div>
+          <span>DEMO</span>
         </div>
 
-        <div class="balance-title">ব্যালেন্স</div>
-        <div class="balance-amount" id="main-balance">$0.0193324</div>
-    </div>
+        <div class="watch-box">
+          <div class="watch-icon">
+            <i class="fa-solid fa-circle-play"></i>
+          </div>
+          <h2>ভিডিও ডেমো</h2>
+          <p class="muted">
+            এই বাটন প্রকৃত ভিডিও বা বিজ্ঞাপন চালায় না।
+          </p>
+          <div class="timer" id="timer">00:15</div>
+          <button class="primary-btn" id="watch-button" onclick="startWatch()">
+            <i class="fa-solid fa-play"></i> টাইমার শুরু করুন
+          </button>
+          <p class="small" id="watch-message" style="margin-top:12px">
+            ডেমো পরীক্ষার জন্য তৈরি।
+          </p>
+        </div>
+      </div>
+    </section>
 
-    <!-- Main Card Body -->
-    <div class="main-card">
-        
-        <!-- PAGE 1: WATCH (Default) -->
-        <div id="page-watch" class="page active">
-            <div class="watch-box">
-                <div class="watch-title">YOUTUBE ভিউ</div>
-                <div class="watch-desc">YouTube-এ ছোট ভিডিও দেখে অর্থ উপার্জন করুন</div>
-                
-                <button class="btn-watch" onclick="startWatch()">
-                    <i class="fa-solid fa-play"></i> ভিডিও দেখুন
-                </button>
-                <div style="color: #777; font-size: 13px; margin-top: 12px;">দেখার সময়কাল: ১৫ সেকেন্ড</div>
-            </div>
+    <!-- INVITE -->
+    <section class="page" id="page-invite">
+      <h2 class="section-title">Invite Friends</h2>
+      <p class="muted">তোমার রেফারেল লিংক।</p>
 
-            <div class="info-row">
-    
+      <div class="card">
+        <div class="watch-icon">
+          <i class="fa-solid fa-user-plus"></i>
+        </div>
+        <h3>বন্ধুদের আমন্ত্রণ জানাও</h3>
+        <p class="muted" style="margin-top:10px">
+          নিচের লিংকটি কপি করে শেয়ার করতে পারো।
+        </p>
+        <div class="referral-link" id="ref-link" style="margin-top:15px"></div>
+        <button class="primary-btn" onclick="copyReferral()">
+          <i class="fa-solid fa-copy"></i> লিংক কপি করুন
+        </button>
+        <p class="small" id="ref-message" style="margin-top:10px"></p>
+      </div>
+
+      <div class="notice">
+        এটি শুধু লিংক তৈরির ডেমো। নতুন ব্যবহারকারী শনাক্ত করা
+        বা রেফারেল কমিশন দেওয়ার জন্য ব্যাকএন্ড লাগবে।
+      </div>
+    </section>
+
+    <!-- WITHDRAW -->
+    <section class="page" id="page-withdraw">
+      <h2 class="section-title">Withdraw</h2>
+      <p class="muted">ডেমো টাকা তোলার ফর্ম।</p>
+
+      <div class="card">
+        <p class="muted">বর্তমান ডেমো পয়েন্ট</p>
+        <h2 style="margin-top:8px" id="withdraw-points">0</h2>
+      </div>
+
+      <form id="withdraw-form">
+        <p class="muted" style="margin-top:20px">
+          পেমেন্ট পদ্ধতি নির্বাচন করো
+        </p>
+
+        <label class="gateway selected">
+          <input type="radio" name="gateway" value="bKash" checked>
+          <span class="gateway-logo bkash">bK</span>
+          <span class="gateway-info">
+            <strong>bKash</strong>
+            <p>বিকাশ নম্বর</p>
+          </span>
+        </label>
+
+        <label class="gateway">
+          <input type="radio" name="gateway" value="Nagad">
+          <span class="gateway-logo nagad">N</span>
+          <span class="gateway-info">
+            <strong>Nagad</strong>
+            <p>নগদ নম্বর</p>
+          </span>
+        </label>
+
+        <label class="gateway">
+          <input type="radio" name="gateway" value="USDT">
+          <span class="gateway-logo usdt">T</span>
+          <span class="gateway-info">
+            <strong>USDT</strong>
+            <p>ক্রিপ্টো ওয়ালেট ঠিকানা</p>
+          </span>
+        </label>
+
+        <div class="field">
+          <label for="amount">পরিমাণ (ডেমো পয়েন্ট)</label>
+          <input id="amount" type="number" min="1"
+            step="1" placeholder="যেমন: 1000" required>
+        </div>
+
+        <div class="field">
+          <label for="account">পেমেন্ট নম্বর / ওয়ালেট ঠিকানা</label>
+          <input id="account" type="text" maxlength="150"
+            placeholder="ডেমো তথ্য লিখুন" required>
+        </div>
+
+        <button class="primary-btn" type="submit">
+          <i class="fa-solid fa-paper-plane"></i>
+          ডেমো রিকোয়েস্ট তৈরি করুন
+        </button>
+      </form>
+
+      <div class="notice">
+        কোনো টাকা পাঠানো হবে না। এই ডেমো ফর্মে সংবেদনশীল
+        আসল পেমেন্ট তথ্য দিও না। বাস্তব উইথড্রের জন্য নিরাপদ
+        সার্ভার, যাচাই ও অ্যাডমিন অনুমোদন প্রয়োজন।
+      </div>
+
+      <div class="card">
+        <h3>ডেমো রিকোয়েস্ট হিস্ট্রি</h3>
+        <div id="withdraw-history" class="muted" style="margin-top:12px">
+          এখনো কোনো রিকোয়েস্ট নেই।
+        </div>
+      </div>
+    </section>
+
+    <!-- PROFILE -->
+    <section class="page" id="page-profile">
+      <h2 class="section-title">Profile</h2>
+      <p class="muted">ব্রাউজারের ডেমো প্রোফাইল।</p>
+
+      <div class="card">
+        <div class="watch-icon">
+          <i class="fa-solid fa-user"></i>
+        </div>
+        <h3>Demo User</h3>
+        <p class="muted" style="margin-top:8px">
+          লগইন ব্যবস্থা এখনো যুক্ত করা হয়নি।
+        </p>
+        <div class="task-row" style="margin-top:15px">
+          <span>পয়েন্ট</span>
+          <strong id="profile-points">0</strong>
+        </div>
+        <button class="secondary-btn" style="width:100%;margin-top:16px"
+          onclick="resetDemo()">
+          ডেমো ডেটা রিসেট
+        </button>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- BOTTOM NAVIGATION -->
+  <nav class="bottom-nav">
+    <button class="nav-item active" data-page="home"
+      onclick="showPage('home')">
+      <i class="fa-solid fa-house"></i>
+      <span>Home</span>
+    </button>
+
+    <button class="nav-item" data-page="tasks"
+      onclick="showPage('tasks')">
+      <i class="fa-solid fa-list-check"></i>
+      <span>Tasks</span>
+    </button>
+
+    <button class="nav-item center" data-page="tasks"
+      onclick="showPage('tasks')">
+      <i class="fa-solid fa-play"></i>
+      <span>Watch</span>
+    </button>
+
+    <button class="nav-item" data-page="invite"
+      onclick="showPage('invite')">
+      <i class="fa-solid fa-user-plus"></i>
+      <span>Invite</span>
+    </button>
+
+    <button class="nav-item" data-page="withdraw"
+      onclick="showPage('withdraw')">
+      <i class="fa-solid fa-wallet"></i>
+      <span>Withdraw</span>
+    </button>
+  </nav>
+
+  <script>
+    // ডেমো তথ্য: এই ডেটা শুধু বর্তমান ব্রাউজারে থাকে।
+    const STORAGE_KEY = "few_demo_v1";
+
+    function loadState() {
+      try {
+        const saved = localStorage.getItem(STORAGE_KEY);
+        if (saved) {
+          const parsed = JSON.parse(saved);
+          if (
+            Number.isFinite(parsed.points) &&
+            Number.isFinite(parsed.tasks) &&
+            Array.isArray(parsed.requests)
+          ) return parsed;
+        }
+      } catch (error) {}
+
+      return { points: 0, tasks: 0, requests: [] };
+    }
+
+    let state = loadState();
+    let watchInterval = null;
+    let secondsLeft = 15;
+
+    function saveState() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+      render();
+    }
+
+    function render() {
+      document.getElementById("points").textContent =
+        state.points.toLocaleString("en-US");
+
+      document.getElementById("stat-points").textContent =
+        state.points.toLocaleString("en-US");
+
+      document.getElementById("withdraw-points").textContent =
+        state.points.toLocaleString("en-US");
+
+      document.getElementById("profile-points").textContent =
+        state.points.toLocaleString("en-US");
+
+      document.getElementById("stat-tasks").textContent =
+        state.tasks.toLocaleString("en-US");
+
+      // শুধু UI প্রদর্শনের জন্য। এটি আসল ডলার ব্যালেন্স নয়।
+      document.getElementById("balance").textContent =
+        "$" + (state.points * 0.0001).toFixed(4);
+
+      const history = document.getElementById("withdraw-history");
+
+      if (!state.requests.length) {
+        history.textContent = "এখনো কোনো রিকোয়েস্ট নেই।";
+      } else {
+        history.replaceChildren();
+
+        state.requests.slice().reverse().forEach(function (req) {
+          const row = document.createElement("div");
+          row.className = "history-row";
+
+          const details = document.createElement("div");
+          const title = document.createElement("strong");
+          const subtitle = document.createElement("p");
+
+          title.textContent = req.method + " — " + req.amount + " points";
+          subtitle.className = "small";
+          subtitle.textContent = req.date + " · DEMO ONLY";
+
+          details.append(title, subtitle);
+          row.append(details);
+          history.append(row);
+        });
+      }
+
+      document.getElementById("ref-link").textContent =
+        location.href.split("#")[0].split("?")[0] +
+        "?ref=DEMO123";
+    }
+
+    function showPage(name) {
+      document.querySelectorAll(".page").forEach(function (page) {
+        page.classList.remove("active");
+      });
+
+      const target = document.getElementById("page-" + name);
+      if (target) target.classList.add("active");
+
+      document.querySelectorAll(".nav-item").forEach(function (button) {
+        button.classList.toggle(
+          "active",
+          button.dataset.page === name
+        );
+      });
+
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function startWatch() {
+      if (watchInterval) return;
+
+      secondsLeft = 15;
+      const button = document.getElementById("watch-button");
+      const timer = document.getElementById("timer");
+      const message = document.getElementById("watch-message");
+
+      button.disabled = true;
+      button.textContent = "টাইমার চলছে...";
+      message.textContent = "ডেমো টাইমার চলছে। এতে কোনো পুরস্কার নেই।";
+
+      timer.textContent = "00:15";
+
+      watchInterval = setInterval(function () {
+        secondsLeft--;
+
+        timer.textContent = "00:" +
+          String(Math.max(secondsLeft, 0)).padStart(2, "0");
+
+        if (secondsLeft <= 0) {
+          clearInterval(watchInterval);
+          watchInterval = null;
+
+          button.disabled = false;
+          button.innerHTML =
+            '<i class="fa-solid fa-rotate-right"></i> আবার শুরু করুন';
+
+          message.textContent =
+            "ডেমো টাইমার শেষ হয়েছে। কোনো পয়েন্ট যোগ হয়নি।";
+        }
+      }, 1000);
+    }
+
+    async function copyReferral() {
+      const link = document.getElementById("ref-link").textContent;
+      const message = document.getElementById("ref-message");
+
+      try {
+        await navigator.clipboard.writeText(link);
+        message.textContent = "লিংক কপি হয়েছে।";
+      } catch (error) {
+        message.textContent = "লিংকটি নির্বাচন করে কপি করো: " + link;
+      }
+    }
+
+    document.querySelectorAll('input[name="gateway"]').forEach(
+      function (input) {
+        input.addEventListener("change", function () {
+          document.querySelectorAll(".gateway").forEach(function (card) {
+            card.classList.remove("selected");
+          });
+          input.closest(".gateway").classList.add("selected");
+        });
+      }
+    );
+
+    document.getElementById("withdraw-form").addEventListener(
+      "submit", function (event) {
+        event.preventDefault();
+
+        const amount = Number(document.getElementById("amount").value);
+        const account = document.getElementById("account").value.trim();
+        const method = document.querySelector(
+          'input[name="gateway"]:checked'
+        ).value;
+
+        if (!Number.isSafeInteger(amount) || amount <= 0) {
+          alert("সঠিক পূর্ণসংখ্যার পয়েন্ট লিখুন।");
+          return;
+        }
+
+        if (!account || account.length > 150) {
+          a
