@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Free Earning Watch - Admin Panel</title>
+<style>
+*{box-sizing:border-box}
+body{
+ margin:0;
+ font-family:Arial,sans-serif;
+ background:#101827;
+ color:white;
+}
+header{
+ background:#17243a;
+ padding:20px;
+ text-align:center;
+ font-size:22px;
+ font-weight:bold;
+}
+.container{padding:18px;max-width:700px;margin:auto}
+.card{
+ background:#1e2d45;
+ padding:20px;
+ margin:14px 0;
+ border-radius:12px;
+}
+input,button{
+ width:100%;
+ padding:13px;
+ margin-top:10px;
+ border:0;
+ border-radius:7px;
+}
+button{background:#16a36a;color:white;font-weight:bold}
+h3{margin-top:0}
+</style>
+</head>
+<body>
+
+<header>Free Earning Watch</header>
+
+<div class="container">
+
+<div class="card">
+<h2>Admin Login</h2>
+<input type="password" id="password" placeholder="Admin Password">
+<button onclick="login()">Login</button>
+<p id="message"></p>
+</div>
+
+<div id="dashboard" style="display:none">
+
+<div class="card">
+<h2>Admin Dashboard</h2>
+<h3>Total Users: <span id="users">0</span></h3>
+<h3>Withdrawal Requests: <span id="withdrawals">0</span></h3>
+</div>
+
+<div class="card">
+<h3>Website Management</h3>
+<p>Free Earning Watch Admin Panel</p>
+<p>Referral Commission: 10%</p>
+<p>Payment Methods: bKash, Nagad, USDT</p>
+</div>
+
+</div>
+</div>
+
+<script>
+function login(){
+ const password=document.getElementById("password").value;
+ if(password==="CHANGE_THIS_PASSWORD"){
+  document.getElementById("dashboard").style.display="block";
+  document.getElementById("message").innerText="Login Successful";
+ }else{
+  document.getElementById("message").innerText="Wrong Password";
+ }
+}
+</script>
+
+</body>
+  </html>
