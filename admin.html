@@ -151,8 +151,11 @@ async function loadData(){
   deduct.onclick = () =>
     adjustPoints(u.id, -Number(amount.value), reason.value);
 
-  div.append(title, amount, reason, add, deduct);
-  list.appendChild(div);
+  const historyBtn = document.createElement("button");
+historyBtn.textContent = "Points History";
+historyBtn.onclick = () => loadHistory(u.id);
+
+div.append(title, amount, reason, add, deduct, historyBtn);
 });
   }
 
@@ -229,6 +232,34 @@ async function adjustPoints(userId, change, reason){
   alert("নতুন ব্যালেন্স: " + data);
   await loadData();
     }
+  async function loadHistory(userId){
+  const {data,error} = await db
+    .from("points_history")
+    .select("points_change,reason,created_at")
+    .eq("user_id",userId)
+    .order("created_at",{ascending:false});
+
+  if(error){
+    alert("History loading error: " + error.message);
+    return;
+  }
+
+  if(!data.length){
+    alert("এই User-এর কোনো Points History নেই।");
+    return;
+  }
+
+  const history = data.map(item =>
+    (item.points_change > 0 ? "+" : "") +
+    item.points_change +
+    " points | " +
+    (item.reason || "No reason") +
+    " | " +
+    new Date(item.created_at).toLocaleString()
+  ).join("\n");
+
+  alert(history);
+  }
 async function updateStatus(id,status){
   if(!confirm("Change request status to " + status + "?")) return;
 
