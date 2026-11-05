@@ -1,84 +1,210 @@
+HTML
+
 <!DOCTYPE html>
 <html lang="bn">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Free Earning Watch - Admin Panel</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Free Earning Watch Admin</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 *{box-sizing:border-box}
-body{
- margin:0;
- font-family:Arial,sans-serif;
- background:#101827;
- color:white;
-}
-header{
- background:#17243a;
- padding:20px;
- text-align:center;
- font-size:22px;
- font-weight:bold;
-}
-.container{padding:18px;max-width:700px;margin:auto}
-.card{
- background:#1e2d45;
- padding:20px;
- margin:14px 0;
- border-radius:12px;
-}
-input,button{
- width:100%;
- padding:13px;
- margin-top:10px;
- border:0;
- border-radius:7px;
-}
-button{background:#16a36a;color:white;font-weight:bold}
-h3{margin-top:0}
+body{margin:0;background:#101827;color:white;font-family:Arial}
+header{background:#17243a;padding:20px;text-align:center;font-size:22px;font-weight:bold}
+main{max-width:850px;margin:auto;padding:16px}
+.card{background:#1e2d45;padding:18px;border-radius:12px;margin:14px 0}
+input{width:100%;padding:13px;margin:8px 0;border:0;border-radius:7px}
+button{padding:11px;border:0;border-radius:7px;background:#16a36a;color:white;font-weight:bold;margin:5px;cursor:pointer}
+.reject{background:#d94343}
+.small{color:#bdc9dc;font-size:13px}
+.item{border-bottom:1px solid #42516a;padding:12px 0}
+#dashboard{display:none}
 </style>
 </head>
 <body>
 
-<header>Free Earning Watch</header>
+<header>Free Earning Watch - Admin</header>
 
-<div class="container">
-
-<div class="card">
+<main>
+<div class="card" id="loginBox">
 <h2>Admin Login</h2>
-<input type="password" id="password" placeholder="Admin Password">
+<input id="email" type="email" placeholder="Admin Email">
+<input id="password" type="password" placeholder="Password">
 <button onclick="login()">Login</button>
 <p id="message"></p>
 </div>
 
-<div id="dashboard" style="display:none">
-
+<div id="dashboard">
 <div class="card">
 <h2>Admin Dashboard</h2>
-<h3>Total Users: <span id="users">0</span></h3>
-<h3>Withdrawal Requests: <span id="withdrawals">0</span></h3>
+<p>Total Users: <b id="users">0</b></p>
+<p>Withdrawal Requests: <b id="withdrawals">0</b></p>
+<button onclick="loadData()">Refresh Data</button>
+<button onclick="logout()">Logout</button>
 </div>
 
 <div class="card">
-<h3>Website Management</h3>
-<p>Free Earning Watch Admin Panel</p>
-<p>Referral Commission: 10%</p>
-<p>Payment Methods: bKash, Nagad, USDT</p>
+<h3>User List</h3>
+<div id="userList">Loading...</div>
 </div>
 
+<div class="card">
+<h3>Withdrawal Requests</h3>
+<div id="withdrawalList">Loading...</div>
 </div>
 </div>
+</main>
 
 <script>
-function login(){
- const password=document.getElementById("password").value;
- if(password==="CHANGE_THIS_PASSWORD"){
-  document.getElementById("dashboard").style.display="block";
-  document.getElementById("message").innerText="Login Successful";
- }else{
-  document.getElementById("message").innerText="Wrong Password";
- }
-}
-</script>
+const SUPABASE_URL = "https://kzbvvkiepmyehwwdgvyf.supabase.co";
+const SUPABASE_KEY = "sb_publishable_xDYCus-WXDxyP2JT2aKajQ_64z8EZR_";
 
+const db = window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
+);
+
+let currentUser = null;
+
+function safe(value){
+  const el = document.createElement("span");
+  el.textContent = value ?? "";
+  return el.innerHTML;
+}
+
+async function login(){
+  const email = document.getElementById("email").value.trim();
+  const password = document.getElementById("password").value;
+  const msg = document.getElementById("message");
+
+  msg.textContent = "Checking...";
+
+  const {data,error} = await db.auth.signInWithPassword({
+    email,password
+  });
+
+  if(error){
+    msg.textContent = error.message;
+    return;
+  }
+
+  currentUser = data.user;
+
+  const {data:isAdmin,error:adminError} =
+    await db.rpc("is_admin");
+
+  if(adminError || isAdmin !== true){
+    await db.auth.signOut();
+    currentUser = null;
+    msg.textContent = "Admin access denied.";
+    return;
+  }
+
+  document.getElementById("loginBox").style.display = "none";
+  document.getElementById("dashboard").style.display = "block";
+
+  await loadData();
+}
+
+async function loadData(){
+  if(!currentUser) return;
+
+  const {data:users,error:userError} = await db
+    .from("profiles")
+    .select("id,display_name,balance_points");
+
+  if(userError){
+    document.getElementById("userList").textContent =
+      "User loading error: " + userError.message;
+  }else{
+    document.getElementById("users").textContent = users.length;
+    const list = document.getElementById("userList");
+    list.replaceChildren();
+
+    users.forEach(u=>{
+      const div = document.createElement("div");
+      div.className = "item";
+      div.textContent =
+        (u.display_name || "Unknown") +
+        " | Points: " + (u.balance_points ?? 0);
+      list.appendChild(div);
+    });
+  }
+
+  const {data:requests,error:withdrawError} = await db
+    .from("withdrawals")
+    .select("id,user_id,method,wallet,points,status,created_at")
+    .order("created_at",{ascending:false});
+
+  if(withdrawError){
+    document.getElementById("withdrawalList").textContent =
+      "Withdrawal loading error: " + withdrawError.message;
+    return;
+  }
+
+  document.getElementById("withdrawals").textContent =
+    requests.length;
+
+  const list = document.getElementById("withdrawalList");
+  list.replaceChildren();
+
+  requests.forEach(r=>{
+    const div = document.createElement("div");
+    div.className = "item";
+
+    const details = document.createElement("p");
+    details.textContent =
+      "User ID: " + r.user_id +
+      " | Method: " + r.method +
+      " | Wallet: " + r.wallet +
+      " | Points: " + r.points +
+      " | Status: " + r.status;
+
+    div.appendChild(details);
+
+    if(r.status === "pending"){
+      const approve = document.createElement("button");
+      approve.textContent = "Approve";
+      approve.onclick = ()=>updateStatus(r.id,"approved");
+
+      const reject = document.createElement("button");
+      reject.textContent = "Reject";
+      reject.className = "reject";
+      reject.onclick = ()=>updateStatus(r.id,"rejected");
+
+      div.append(approve,reject);
+    }
+
+    list.appendChild(div);
+  });
+}
+
+async function updateStatus(id,status){
+  if(!confirm("Change request status to " + status + "?")) return;
+
+  const {error} = await db
+    .from("withdrawals")
+    .update({status})
+    .eq("id",id)
+    .eq("status","pending");
+
+  if(error){
+    alert("Update failed: " + error.message);
+    return;
+  }
+
+  alert("Status updated.");
+  await loadData();
+}
+
+async function logout(){
+  await db.auth.signOut();
+  currentUser = null;
+  document.getElementById("dashboard").style.display = "none";
+  document.getElementById("loginBox").style.display = "block";
+}
+
+</script>
 </body>
-  </html>
+ </html>
+ 
