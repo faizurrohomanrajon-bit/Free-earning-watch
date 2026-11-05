@@ -156,9 +156,9 @@ HTML
       </select>
       <input id="account" placeholder="পেমেন্ট অ্যাকাউন্ট / ওয়ালেট">
       <input id="amount" type="number" min="1" placeholder="পয়েন্ট">
-      <button class="full secondary" disabled>
-        Withdrawal Setup Pending
-      </button>
+      <button class="full secondary" type="button" onclick="submitWithdrawal()">
+  Request Withdrawal
+  </button>
     </section>
 
     <section id="profile" class="card hidden">
@@ -311,6 +311,51 @@ HTML
     }
   }
 
+async function submitWithdrawal() {
+  if (!db || !currentUser) {
+    message("আগে Login করুন।");
+    return;
+  }
+
+  const method = $("method").value;
+  const wallet = $("account").value.trim();
+  const points = Number($("amount").value);
+
+  if (!wallet) {
+    message("পেমেন্ট অ্যাকাউন্ট লিখুন।");
+    return;
+  }
+
+  if (!Number.isSafeInteger(points) || points <= 0) {
+    message("সঠিক পূর্ণসংখ্যার পয়েন্ট লিখুন।");
+    return;
+  }
+
+  if (!confirm(points + " পয়েন্টের Withdrawal Request জমা দেবেন?")) {
+    return;
+  }
+
+  message("Request জমা হচ্ছে...");
+
+  const { data, error } = await db.rpc("request_withdrawal", {
+    p_method: method,
+    p_wallet: wallet,
+    p_points: points
+  });
+
+  if (error) {
+    message("Request জমা হয়নি: " + error.message);
+    return;
+  }
+
+  $("account").value = "";
+  $("amount").value = "";
+
+  message("Request সফলভাবে জমা হয়েছে। Request ID: " + data);
+
+  await loadProfile();
+  }
+  
   async function loadProfile() {
     if (!db || !currentUser) return;
 
