@@ -3,425 +3,671 @@ HTML
 <!DOCTYPE html>
 <html lang="bn">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#101827">
-  <title>Free Earning Watch</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#080808">
+<title>Free Earning Watch</title>
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-  <style>
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      background: #101827;
-      color: #f8fafc;
-      font-family: Arial, sans-serif;
-    }
-    .container { max-width: 520px; margin: auto; padding: 18px; }
-    h1 { font-size: 26px; text-align: center; color: #4ade80; }
-    h2 { font-size: 21px; }
-    .card {
-      background: #1e293b;
-      padding: 18px;
-      border-radius: 14px;
-      margin: 14px 0;
-    }
-    input, select {
-      width: 100%;
-      padding: 13px;
-      margin: 8px 0;
-      border: 1px solid #475569;
-      border-radius: 9px;
-      background: #0f172a;
-      color: white;
-      font-size: 16px;
-    }
-    button {
-      padding: 12px;
-      border: 0;
-      border-radius: 9px;
-      background: #22c55e;
-      color: #052e16;
-      font-weight: bold;
-      font-size: 15px;
-      cursor: pointer;
-    }
-    .full { width: 100%; margin-top: 8px; }
-    .secondary { background: #334155; color: white; }
-    .nav { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
-    .nav button { background: #334155; color: white; }
-    .hidden { display: none !important; }
-    .muted { color: #cbd5e1; font-size: 14px; line-height: 1.6; }
-    .balance { font-size: 30px; color: #4ade80; font-weight: bold; }
-    #message { white-space: pre-wrap; overflow-wrap: anywhere; }
-    .warning { color: #fbbf24; }
-  </style>
+<style>
+*{box-sizing:border-box}
+
+body{
+ margin:0;
+ background:#080808;
+ color:#f5f5f5;
+ font-family:Arial,sans-serif;
+}
+
+.container{
+ max-width:520px;
+ margin:auto;
+ padding:18px;
+}
+
+.header{
+ text-align:center;
+ padding:22px 10px;
+ border-bottom:1px solid #a67c24;
+ margin-bottom:20px;
+}
+
+.logo{
+ font-size:27px;
+ font-weight:900;
+ color:#e8bd59;
+ letter-spacing:1px;
+}
+
+.tagline{
+ color:#aaa;
+ font-size:13px;
+ margin-top:8px;
+}
+
+.card{
+ background:linear-gradient(145deg,#191919,#101010);
+ border:1px solid #765a25;
+ border-radius:16px;
+ padding:20px;
+ margin:15px 0;
+ box-shadow:0 5px 20px #000;
+}
+
+h2{
+ color:#e8bd59;
+ font-size:20px;
+ margin-top:0;
+}
+
+.muted{
+ color:#aaa;
+ font-size:14px;
+ line-height:1.7;
+}
+
+.gold{
+ color:#e8bd59;
+}
+
+.balance{
+ font-size:35px;
+ font-weight:bold;
+ color:#f1c75b;
+ margin:12px 0;
+}
+
+input,select{
+ width:100%;
+ padding:14px;
+ margin:8px 0;
+ border:1px solid #6e5528;
+ border-radius:10px;
+ background:#090909;
+ color:white;
+ font-size:15px;
+ outline:none;
+}
+
+input:focus,select:focus{
+ border-color:#f1c75b;
+}
+
+button{
+ padding:13px;
+ border:1px solid #d4a63e;
+ border-radius:10px;
+ background:linear-gradient(135deg,#f5d77b,#b88626);
+ color:#17100a;
+ font-size:15px;
+ font-weight:bold;
+ cursor:pointer;
+}
+
+button:disabled{
+ opacity:.5;
+ cursor:not-allowed;
+}
+
+.full{
+ width:100%;
+ margin-top:9px;
+}
+
+.secondary{
+ background:#222;
+ color:#e8bd59;
+ border:1px solid #765a25;
+}
+
+.nav{
+ display:grid;
+ grid-template-columns:repeat(3,1fr);
+ gap:9px;
+ margin:18px 0;
+}
+
+.nav button{
+ background:#171717;
+ color:#e8bd59;
+ border:1px solid #765a25;
+ padding:12px 5px;
+ font-size:13px;
+}
+
+.nav button:active{
+ background:#765a25;
+ color:white;
+}
+
+.hidden{
+ display:none!important;
+}
+
+.hero{
+ text-align:center;
+ background:linear-gradient(135deg,#30230e,#111,#241a0b);
+}
+
+.hero-label{
+ color:#bbb;
+ font-size:14px;
+}
+
+.balance-card{
+ background:linear-gradient(135deg,#3b2b10,#15110a);
+ border:1px solid #d5a43c;
+ text-align:center;
+}
+
+.stat{
+ display:flex;
+ justify-content:space-between;
+ align-items:center;
+ border-bottom:1px solid #393020;
+ padding:12px 0;
+ color:#ddd;
+}
+
+.warning{
+ color:#f3c45c;
+}
+
+#message{
+ white-space:pre-wrap;
+ overflow-wrap:anywhere;
+}
+
+.footer{
+ text-align:center;
+ color:#777;
+ font-size:12px;
+ padding:20px 5px;
+}
+
+</style>
 </head>
 
 <body>
 <div class="container">
-  <h1>Free Earning Watch</h1>
-  <p class="muted" style="text-align:center">
-    আপনার অ্যাকাউন্ট তৈরি করুন অথবা লগইন করুন
+
+<div class="header">
+ <div class="logo">♛ FREE EARNING WATCH</div>
+ <div class="tagline">WATCH • EARN • WITHDRAW</div>
+</div>
+
+<div id="auth">
+ <div class="card hero">
+  <h2>Welcome Back</h2>
+  <p class="muted">আপনার Earning Account-এ প্রবেশ করুন</p>
+ </div>
+
+ <div class="card">
+  <h2 id="authTitle">Create Account</h2>
+
+  <div id="nameBox">
+   <input id="name" placeholder="আপনার নাম" maxlength="80">
+  </div>
+
+  <input id="email" type="email"
+   placeholder="Email address" autocomplete="email">
+
+  <input id="password" type="password"
+   placeholder="Password" autocomplete="current-password"
+   minlength="8">
+
+  <button class="full" id="submitAuth" onclick="submitAuth()">
+   Sign Up
+  </button>
+
+  <button class="full secondary" id="switchAuth"
+   onclick="switchMode()">
+   আগে অ্যাকাউন্ট আছে? Login করুন
+  </button>
+
+  <p class="muted">
+   নিজের ইমেইল ব্যবহার করুন। পাসওয়ার্ড কাউকে দেবেন না।
+  </p>
+ </div>
+</div>
+
+<div id="app" class="hidden">
+
+ <div class="card hero">
+  <p class="gold">♛ PREMIUM MEMBER</p>
+  <p class="muted">স্বাগতম</p>
+  <h2 id="userName">User</h2>
+  <p class="muted">আপনার মোট ব্যালেন্স</p>
+ </div>
+
+ <div class="card balance-card">
+  <p class="gold">TOTAL POINTS</p>
+  <div class="balance">
+   <span id="points">0</span>
+  </div>
+  <p class="muted">আপনার বর্তমান পয়েন্ট</p>
+ </div>
+
+ <div class="nav">
+  <button onclick="showPage('home')">⌂ Home</button>
+  <button onclick="showPage('tasks')">▶ Tasks</button>
+  <button onclick="showPage('invite')">♧ Invite</button>
+  <button onclick="showPage('withdraw')">৳ Withdraw</button>
+  <button onclick="showPage('profile')">♙ Profile</button>
+  <button onclick="logout()">↪ Logout</button>
+ </div>
+
+ <section id="home" class="card">
+  <h2>♛ Dashboard</h2>
+  <p class="muted">
+   Free Earning Watch-এ আপনাকে স্বাগতম।
+   আপনার অ্যাকাউন্ট থেকে বিভিন্ন অপশন ব্যবহার করুন।
   </p>
 
-  <div id="auth">
-    <div class="card">
-      <h2 id="authTitle">Create Account</h2>
-
-      <div id="nameBox">
-        <input id="name" placeholder="আপনার নাম" maxlength="80">
-      </div>
-
-      <input id="email" type="email" placeholder="Email address"
-        autocomplete="email">
-      <input id="password" type="password" placeholder="Password"
-        autocomplete="current-password" minlength="8">
-
-      <button class="full" id="submitAuth" onclick="submitAuth()">
-        Sign Up
-      </button>
-
-      <button class="full secondary" id="switchAuth" onclick="switchMode()">
-        আগে অ্যাকাউন্ট আছে? Login করুন
-      </button>
-
-      <p class="muted">
-        নিজের ইমেইল ব্যবহার করুন। পাসওয়ার্ড কাউকে দেবেন না।
-      </p>
-    </div>
+  <div class="stat">
+   <span>Account Status</span>
+   <span class="gold">Active</span>
   </div>
 
-  <div id="app" class="hidden">
-    <div class="card">
-      <p class="muted">স্বাগতম</p>
-      <h2 id="userName">User</h2>
-      <p class="muted">আপনার ব্যালেন্স</p>
-      <div class="balance"><span id="points">0</span> Points</div>
-      <p class="muted">আপনার অ্যাকাউন্টের পয়েন্ট</p>
-    </div>
+  <div class="stat">
+   <span>Your Points</span>
+   <span class="gold" id="homePoints">0</span>
+  </div>
 
-    <div class="nav">
-      <button onclick="showPage('home')">Home</button>
-      <button onclick="showPage('tasks')">Tasks</button>
-      <button onclick="showPage('invite')">Invite</button>
-      <button onclick="showPage('withdraw')">Withdraw</button>
-      <button onclick="showPage('profile')">Profile</button>
-      <button onclick="logout()">Logout</button>
-    </div>
-
-    <section id="home" class="card">
-      <h2>Dashboard</h2>
-      <p class="muted">
-        আপনার অ্যাকাউন্ট সফলভাবে সংযুক্ত হয়েছে।
-        এখান থেকে বিভিন্ন অপশন দেখতে পারবেন।
-      </p>
-      <button class="full" onclick="showPage('tasks')">View Tasks</button>
-    </section>
-
-    <section id="tasks" class="card hidden">
-      <h2>Tasks</h2>
-      <p class="muted">
-        এখানে অনুমোদিত বিজ্ঞাপন ও টাস্ক যোগ করা হবে।
-        বর্তমানে কোনো বাস্তব পুরস্কার চালু নেই।
-      </p>
-      <button class="full secondary" disabled>Tasks Coming Soon</button>
-    </section>
-
-    <section id="invite" class="card hidden">
-      <h2>Invite Friends</h2>
-      <p class="muted">আপনার User ID:</p>
-      <input id="refId" readonly>
-      <button class="full" onclick="copyRef()">Copy User ID</button>
-      <p class="muted">
-        এটি আপাতত আপনার User ID। রেফারেল লিংক ও ১০% কমিশনের
-        ব্যবস্থা পরের ধাপে নিরাপদভাবে তৈরি করতে হবে।
-      </p>
-    </section>
-
-    <section id="withdraw" class="card hidden">
-      <h2>Withdraw</h2>
-      <p class="muted">
-        bKash, Nagad ও USDT-এর টাকা তোলার অনুরোধের ফর্ম
-        পরের ধাপে ডেটাবেসের সঙ্গে যুক্ত করা হবে।
-      </p>
-      <p class="warning">
-        বর্তমানে কোনো টাকা তোলার অনুরোধ জমা হয় না।
-      </p>
-      <select id="method">
-        <option value="bKash">bKash</option>
-        <option value="Nagad">Nagad</option>
-        <option value="USDT">USDT</option>
-      </select>
-      <input id="account" placeholder="পেমেন্ট অ্যাকাউন্ট / ওয়ালেট">
-      <input id="amount" type="number" min="1" placeholder="পয়েন্ট">
-      <button class="full secondary" type="button" onclick="submitWithdrawal()">
-  Request Withdrawal
+  <button class="full" onclick="showPage('tasks')">
+   ▶ Explore Tasks
   </button>
-    </section>
+ </section>
 
-    <section id="profile" class="card hidden">
-      <h2>My Profile</h2>
-      <p id="profileEmail" class="muted"></p>
-      <p id="profileId" class="muted"></p>
-      <button class="full secondary" onclick="loadProfile()">
-        Refresh Profile
-      </button>
-    </section>
+ <section id="tasks" class="card hidden">
+  <h2>▶ Watch & Earn</h2>
+  <p class="muted">
+   এখানে অনুমোদিত বিজ্ঞাপন ও টাস্ক যোগ করা হবে।
+   বর্তমানে কোনো বাস্তব পুরস্কার চালু নেই।
+  </p>
+  <button class="full secondary" disabled>
+   Tasks Coming Soon
+  </button>
+ </section>
+
+ <section id="invite" class="card hidden">
+  <h2>♧ Invite Friends</h2>
+  <p class="muted">আপনার User ID</p>
+
+  <input id="refId" readonly>
+
+  <button class="full" onclick="copyRef()">
+   Copy User ID
+  </button>
+
+  <p class="muted">
+   রেফারেল লিংক ও ১০% কমিশনের ব্যবস্থা
+   পরবর্তী ধাপে যুক্ত করা হবে।
+  </p>
+ </section>
+
+ <section id="withdraw" class="card hidden">
+  <h2>৳ Withdraw</h2>
+
+  <p class="muted">
+   আপনার পয়েন্ট থেকে Withdrawal Request পাঠান।
+  </p>
+
+  <div class="stat">
+   <span>Available Points</span>
+   <strong class="gold" id="withdrawPoints">0</strong>
   </div>
 
-  <div class="card">
-    <p id="message" class="muted" role="status"></p>
-  </div>
+  <select id="method">
+   <option value="bKash">bKash</option>
+   <option value="Nagad">Nagad</option>
+   <option value="USDT">USDT</option>
+  </select>
+
+  <input id="account"
+   placeholder="পেমেন্ট অ্যাকাউন্ট / ওয়ালেট">
+
+  <input id="amount" type="number" min="1"
+   placeholder="পয়েন্ট লিখুন">
+
+  <button class="full" type="button"
+   onclick="submitWithdrawal()">
+   ৳ Request Withdrawal
+  </button>
+
+  <p class="muted">
+   Withdrawal Request Admin Panel-এ যাচাই করা হবে।
+  </p>
+ </section>
+
+ <section id="profile" class="card hidden">
+  <h2>♙ My Profile</h2>
+
+  <p id="profileEmail" class="muted"></p>
+  <p id="profileId" class="muted"></p>
+
+  <button class="full secondary" onclick="loadProfile()">
+   Refresh Profile
+  </button>
+ </section>
+
+</div>
+
+<div class="card">
+ <p id="message" class="muted" role="status"></p>
+</div>
+
+<div class="footer">
+ FREE EARNING WATCH © 2026
+ <p>Premium Black & Gold Experience</p>
+</div>
+
 </div>
 
 <script>
-  // Supabase Dashboard থেকে Project URL ও Publishable Key বসান।
-  // sb_secret_ বা service_role key এখানে কখনো বসাবেন না।
-  const SUPABASE_URL = "https://kzbvvkiepmyehwwdgvyf.supabase.co";
-  const SUPABASE_KEY = "sb_publishable_xDYCus-WXDxyP2JT2aKajQ_64z8EZR_";
 
-  let db = null;
-  let currentUser = null;
-  let mode = "signup";
+// Supabase Configuration
+const SUPABASE_URL =
+"https://kzbvvkiepmyehwwdgvyf.supabase.co";
 
-  const $ = id => document.getElementById(id);
+const SUPABASE_KEY =
+"sb_publishable_xDYCus-WXDxyP2JT2aKajQ_64z8EZR_";
 
-  function message(text) {
-    $("message").textContent = text;
+let db = null;
+let currentUser = null;
+let mode = "signup";
+
+const $ = id => document.getElementById(id);
+
+function message(text){
+ $("message").textContent = text;
+}
+
+function configured(){
+ return SUPABASE_URL.startsWith("https://") &&
+ SUPABASE_KEY.length > 20;
+}
+
+if(configured() && window.supabase){
+
+ db = window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
+ );
+
+ db.auth.onAuthStateChange((event,session)=>{
+  setTimeout(async()=>{
+   if(session?.user){
+    currentUser=session.user;
+    await loadProfile();
+   }else{
+    currentUser=null;
+    $("auth").classList.remove("hidden");
+    $("app").classList.add("hidden");
+   }
+  },0);
+ });
+
+ db.auth.getSession().then(({data,error})=>{
+  if(error) message(error.message);
+  else if(data.session){
+   currentUser=data.session.user;
+   loadProfile();
   }
+ });
 
-  function configured() {
-    return SUPABASE_URL.startsWith("https://") &&
-      !SUPABASE_URL.includes("PASTE_YOUR") &&
-      !SUPABASE_KEY.includes("PASTE_YOUR") &&
-      SUPABASE_KEY.length > 20;
-  }
+}else{
+ message("Supabase Configuration পরীক্ষা করুন।");
+}
 
-  if (configured() && window.supabase) {
-    db = window.supabase.createClient(
-      SUPABASE_URL,
-      SUPABASE_KEY
+function switchMode(){
+
+ mode=mode==="signup"?"login":"signup";
+
+ $("authTitle").textContent=
+ mode==="signup"?"Create Account":"Login";
+
+ $("submitAuth").textContent=
+ mode==="signup"?"Sign Up":"Login";
+
+ $("switchAuth").textContent=
+ mode==="signup"
+ ?"আগে অ্যাকাউন্ট আছে? Login করুন"
+ :"নতুন অ্যাকাউন্ট তৈরি করুন";
+
+ $("nameBox").classList.toggle(
+  "hidden",mode==="login"
+ );
+
+ message("");
+}
+
+async function submitAuth(){
+
+ if(!db){
+  message("Supabase সংযোগ নেই।");
+  return;
+ }
+
+ const email=$("email").value.trim();
+ const password=$("password").value;
+ const name=$("name").value.trim();
+
+ if(!email||!password){
+  message("Email ও Password পূরণ করুন।");
+  return;
+ }
+
+ if(password.length<8){
+  message("পাসওয়ার্ড কমপক্ষে ৮ অক্ষরের দিন।");
+  return;
+ }
+
+ $("submitAuth").disabled=true;
+ message("অপেক্ষা করুন...");
+
+ try{
+
+  let result;
+
+  if(mode==="signup"){
+
+   if(!name){
+    message("আপনার নাম লিখুন।");
+    return;
+   }
+
+   result=await db.auth.signUp({
+    email,
+    password,
+    options:{
+     data:{name}
+    }
+   });
+
+   if(result.error) throw result.error;
+
+   if(result.data.session){
+    currentUser=result.data.user;
+    await loadProfile();
+   }else{
+    message(
+     "অ্যাকাউন্ট তৈরি হয়েছে। ইমেইল নিশ্চিত করুন, তারপর Login করুন।"
     );
+   }
 
-    db.auth.onAuthStateChange((event, session) => {
-      setTimeout(async () => {
-        if (session?.user) {
-          currentUser = session.user;
-          await loadProfile();
-        } else {
-          currentUser = null;
-          $("auth").classList.remove("hidden");
-          $("app").classList.add("hidden");
-        }
-      }, 0);
-    });
+  }else{
 
-    db.auth.getSession().then(({ data, error }) => {
-      if (error) message(error.message);
-      else if (data.session) {
-        currentUser = data.session.user;
-        loadProfile();
-      }
-    });
-  } else {
-    message("প্রথমে কোডের SUPABASE_URL এবং SUPABASE_KEY পূরণ করুন।");
+   result=await db.auth.signInWithPassword({
+    email,
+    password
+   });
+
+   if(result.error) throw result.error;
+
+   currentUser=result.data.user;
+   await loadProfile();
   }
 
-  function switchMode() {
-    mode = mode === "signup" ? "login" : "signup";
-    $("authTitle").textContent =
-      mode === "signup" ? "Create Account" : "Login";
-    $("submitAuth").textContent =
-      mode === "signup" ? "Sign Up" : "Login";
-    $("switchAuth").textContent =
-      mode === "signup"
-        ? "আগে অ্যাকাউন্ট আছে? Login করুন"
-        : "নতুন অ্যাকাউন্ট তৈরি করুন";
-    $("nameBox").classList.toggle("hidden", mode === "login");
-    message("");
+ }catch(error){
+
+  message("সমস্যা: "+error.message);
+
+ }finally{
+
+  $("submitAuth").disabled=false;
+
+ }
+}
+
+async function submitWithdrawal(){
+
+ if(!db||!currentUser){
+  message("আগে Login করুন।");
+  return;
+ }
+
+ const method=$("method").value;
+ const wallet=$("account").value.trim();
+ const points=Number($("amount").value);
+
+ if(!wallet){
+  message("পেমেন্ট অ্যাকাউন্ট লিখুন।");
+  return;
+ }
+
+ if(!Number.isSafeInteger(points)||points<=0){
+  message("সঠিক পূর্ণসংখ্যার পয়েন্ট লিখুন।");
+  return;
+ }
+
+ if(!confirm(points+" পয়েন্টের Withdrawal Request জমা দেবেন?")){
+  return;
+ }
+
+ message("Request জমা হচ্ছে...");
+
+ const {data,error}=await db.rpc(
+  "request_withdrawal",
+  {
+   p_method:method,
+   p_wallet:wallet,
+   p_points:points
+  }
+ );
+
+ if(error){
+  message("Request জমা হয়নি: "+error.message);
+  return;
+ }
+
+ $("account").value="";
+ $("amount").value="";
+
+ message("Request সফলভাবে জমা হয়েছে। Request ID: "+data);
+
+ await loadProfile();
+}
+
+async function loadProfile(){
+
+ if(!db||!currentUser)return;
+
+ $("auth").classList.add("hidden");
+ $("app").classList.remove("hidden");
+
+ $("userName").textContent=
+ currentUser.user_metadata?.name||"User";
+
+ $("profileEmail").textContent=
+ "Email: "+(currentUser.email||"");
+
+ $("profileId").textContent=
+ "User ID: "+currentUser.id;
+
+ $("refId").value=currentUser.id;
+
+ try{
+
+  const {data,error}=await db
+   .from("profiles")
+   .select("display_name,balance_points")
+   .eq("id",currentUser.id)
+   .single();
+
+  if(error)throw error;
+
+  const balance=data.balance_points??0;
+
+  $("points").textContent=balance;
+  $("homePoints").textContent=balance;
+  $("withdrawPoints").textContent=balance;
+
+  if(data.display_name){
+   $("userName").textContent=data.display_name;
   }
 
-  async function submitAuth() {
-    if (!db) {
-      message("Supabase URL ও Publishable Key ঠিকভাবে বসান।");
-      return;
-    }
+  message("প্রোফাইল সফলভাবে লোড হয়েছে।");
 
-    const email = $("email").value.trim();
-    const password = $("password").value;
-    const name = $("name").value.trim();
+ }catch(error){
 
-    if (!email || !password) {
-      message("Email ও Password পূরণ করুন।");
-      return;
-    }
+  $("points").textContent="—";
+  message("প্রোফাইল লোড হয়নি: "+error.message);
 
-    if (password.length < 8) {
-      message("পাসওয়ার্ড কমপক্ষে ৮ অক্ষরের দিন।");
-      return;
-    }
+ }
+}
 
-    $("submitAuth").disabled = true;
-    message("অপেক্ষা করুন...");
+function showPage(page){
 
-    try {
-      let result;
+ [
+  "home",
+  "tasks",
+  "invite",
+  "withdraw",
+  "profile"
+ ].forEach(id=>{
+  $(id).classList.toggle("hidden",id!==page);
+ });
 
-      if (mode === "signup") {
-        if (!name) {
-          message("আপনার নাম লিখুন।");
-          return;
-        }
+}
 
-        result = await db.auth.signUp({
-          email,
-          password,
-          options: {
-            data: { name }
-          }
-        });
+async function copyRef(){
 
-        if (result.error) throw result.error;
+ try{
 
-        if (result.data.session) {
-          currentUser = result.data.user;
-          await loadProfile();
-        } else {
-          message(
-            "অ্যাকাউন্ট তৈরি হয়েছে। ইমেইল নিশ্চিত করার বার্তা " +
-            "এলে সেটি অনুসরণ করুন, তারপর Login করুন।"
-          );
-        }
-      } else {
-        result = await db.auth.signInWithPassword({
-          email,
-          password
-        });
+  await navigator.clipboard.writeText(
+   $("refId").value
+  );
 
-        if (result.error) throw result.error;
-        currentUser = result.data.user;
-        await loadProfile();
-      }
-    } catch (error) {
-      message("সমস্যা: " + (error.message || "আবার চেষ্টা করুন।"));
-    } finally {
-      $("submitAuth").disabled = false;
-    }
-  }
+  message("User ID কপি হয়েছে।");
 
-async function submitWithdrawal() {
-  if (!db || !currentUser) {
-    message("আগে Login করুন।");
-    return;
-  }
+ }catch{
 
-  const method = $("method").value;
-  const wallet = $("account").value.trim();
-  const points = Number($("amount").value);
+  $("refId").select();
+  message("ID নির্বাচন করা হয়েছে; Copy ব্যবহার করুন।");
 
-  if (!wallet) {
-    message("পেমেন্ট অ্যাকাউন্ট লিখুন।");
-    return;
-  }
+ }
+}
 
-  if (!Number.isSafeInteger(points) || points <= 0) {
-    message("সঠিক পূর্ণসংখ্যার পয়েন্ট লিখুন।");
-    return;
-  }
+async function logout(){
 
-  if (!confirm(points + " পয়েন্টের Withdrawal Request জমা দেবেন?")) {
-    return;
-  }
+ if(!db)return;
 
-  message("Request জমা হচ্ছে...");
+ const {error}=await db.auth.signOut();
 
-  const { data, error } = await db.rpc("request_withdrawal", {
-    p_method: method,
-    p_wallet: wallet,
-    p_points: points
-  });
+ if(error){
+  message(error.message);
+ }else{
+  currentUser=null;
+  $("app").classList.add("hidden");
+  $("auth").classList.remove("hidden");
+  message("আপনি Logout করেছেন।");
+ }
 
-  if (error) {
-    message("Request জমা হয়নি: " + error.message);
-    return;
-  }
+}
 
-  $("account").value = "";
-  $("amount").value = "";
-
-  message("Request সফলভাবে জমা হয়েছে। Request ID: " + data);
-
-  await loadProfile();
-  }
-  
-  async function loadProfile() {
-    if (!db || !currentUser) return;
-
-    $("auth").classList.add("hidden");
-    $("app").classList.remove("hidden");
-    $("userName").textContent =
-      currentUser.user_metadata?.name || "User";
-    $("profileEmail").textContent =
-      "Email: " + (currentUser.email || "");
-    $("profileId").textContent =
-      "User ID: " + currentUser.id;
-    $("refId").value = currentUser.id;
-
-    try {
-      const { data, error } = await db
-        .from("profiles")
-        .select("display_name,balance_points")
-        .eq("id", currentUser.id)
-        .single();
-
-      if (error) throw error;
-
-      $("points").textContent = data.balance_points ?? 0;
-      if (data.display_name) {
-        $("userName").textContent = data.display_name;
-      }
-      message("প্রোফাইল সফলভাবে লোড হয়েছে।");
-    } catch (error) {
-      $("points").textContent = "—";
-      message(
-        "প্রোফাইল লোড হয়নি। Supabase-এর profiles টেবিল ও " +
-        "RLS নীতিমালা পরীক্ষা করুন। " + error.message
-      );
-    }
-  }
-
-  function showPage(page) {
-    ["home", "tasks", "invite", "withdraw", "profile"]
-      .forEach(id => $(id).classList.toggle("hidden", id !== page));
-  }
-
-  async function copyRef() {
-    try {
-      await navigator.clipboard.writeText($("refId").value);
-      message("User ID কপি হয়েছে।");
-    } catch {
-      $("refId").select();
-      message("ID নির্বাচন করা হয়েছে; Copy ব্যবহার করুন।");
-    }
-  }
-
-  async function logout() {
-    if (!db) return;
-    const { error } = await db.auth.signOut();
-    if (error) message(error.message);
-    else {
-      currentUser = null;
-      $("app").classList.add("hidden");
-      $("auth").classList.remove("hidden");
-      message("আপনি Logout করেছেন।");
-    }
-  }
 </script>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-
 </body>
   </html>
-        
+    
