@@ -4,670 +4,405 @@ HTML
 <html lang="bn">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#080808">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#10150b">
 <title>Free Earning Watch</title>
-
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
 *{box-sizing:border-box}
-
-body{
- margin:0;
- background:#080808;
- color:#f5f5f5;
- font-family:Arial,sans-serif;
-}
-
-.container{
- max-width:520px;
- margin:auto;
- padding:18px;
-}
-
-.header{
- text-align:center;
- padding:22px 10px;
- border-bottom:1px solid #a67c24;
- margin-bottom:20px;
-}
-
-.logo{
- font-size:27px;
- font-weight:900;
- color:#e8bd59;
- letter-spacing:1px;
-}
-
-.tagline{
- color:#aaa;
- font-size:13px;
- margin-top:8px;
-}
-
-.card{
- background:linear-gradient(145deg,#191919,#101010);
- border:1px solid #765a25;
- border-radius:16px;
- padding:20px;
- margin:15px 0;
- box-shadow:0 5px 20px #000;
-}
-
-h2{
- color:#e8bd59;
- font-size:20px;
- margin-top:0;
-}
-
-.muted{
- color:#aaa;
- font-size:14px;
- line-height:1.7;
-}
-
-.gold{
- color:#e8bd59;
-}
-
-.balance{
- font-size:35px;
- font-weight:bold;
- color:#f1c75b;
- margin:12px 0;
-}
-
-input,select{
- width:100%;
- padding:14px;
- margin:8px 0;
- border:1px solid #6e5528;
- border-radius:10px;
- background:#090909;
- color:white;
- font-size:15px;
- outline:none;
-}
-
-input:focus,select:focus{
- border-color:#f1c75b;
-}
-
-button{
- padding:13px;
- border:1px solid #d4a63e;
- border-radius:10px;
- background:linear-gradient(135deg,#f5d77b,#b88626);
- color:#17100a;
- font-size:15px;
- font-weight:bold;
- cursor:pointer;
-}
-
-button:disabled{
- opacity:.5;
- cursor:not-allowed;
-}
-
-.full{
- width:100%;
- margin-top:9px;
-}
-
-.secondary{
- background:#222;
- color:#e8bd59;
- border:1px solid #765a25;
-}
-
-.nav{
- display:grid;
- grid-template-columns:repeat(3,1fr);
- gap:9px;
- margin:18px 0;
-}
-
-.nav button{
- background:#171717;
- color:#e8bd59;
- border:1px solid #765a25;
- padding:12px 5px;
- font-size:13px;
-}
-
-.nav button:active{
- background:#765a25;
- color:white;
-}
-
-.hidden{
- display:none!important;
-}
-
-.hero{
- text-align:center;
- background:linear-gradient(135deg,#30230e,#111,#241a0b);
-}
-
-.hero-label{
- color:#bbb;
- font-size:14px;
-}
-
-.balance-card{
- background:linear-gradient(135deg,#3b2b10,#15110a);
- border:1px solid #d5a43c;
- text-align:center;
-}
-
-.stat{
- display:flex;
- justify-content:space-between;
- align-items:center;
- border-bottom:1px solid #393020;
- padding:12px 0;
- color:#ddd;
-}
-
-.warning{
- color:#f3c45c;
-}
-
-#message{
- white-space:pre-wrap;
- overflow-wrap:anywhere;
-}
-
-.footer{
- text-align:center;
- color:#777;
- font-size:12px;
- padding:20px 5px;
-}
-
+body{margin:0;background:#090d08;color:#fff;font-family:Arial,sans-serif}
+:root{--lime:#c5ff42;--green:#91e83e;--dark:#111810;--muted:#aaa}
+.container{max-width:520px;margin:auto;padding:15px 15px 105px}
+.hidden{display:none!important}
+button{cursor:pointer;border:0;font-weight:bold;font-size:15px}
+.header{display:flex;align-items:center;justify-content:space-between;padding:12px 3px 20px}
+.logo{color:var(--lime);font-weight:900;font-size:19px}
+.menu-btn{background:none;color:white;font-size:27px}
+.banner{background:var(--lime);color:#10150b;border-radius:50px;padding:15px;display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;font-weight:bold}
+.banner-icon{background:#111;color:var(--lime);width:42px;height:42px;border-radius:50%;display:grid;place-items:center;font-size:22px}
+.banner-arrow{border:2px solid #536b1c;border-radius:50%;width:38px;height:38px;display:grid;place-items:center;font-size:22px}
+.topline{display:flex;align-items:center;justify-content:space-between;margin-bottom:28px}
+.top-icons{display:flex;gap:12px}
+.round-icon{width:54px;height:54px;border-radius:50%;display:grid;place-items:center;background:var(--lime);color:#111;font-size:23px}
+.round-icon.white{background:#eee}
+.top-balance{font-size:23px;font-weight:bold}
+.small{font-size:13px;color:#aaa}
+.card{background:linear-gradient(130deg,#20251c,#111710);border:1px solid #303b29;border-radius:22px;padding:20px;margin:15px 0}
+h1{font-size:27px;margin:12px 0}
+h2{font-size:23px;margin:8px 0 18px}
+.muted{color:#aaa;line-height:1.7;font-size:14px}
+.green{color:var(--lime)}
+.balance{font-size:36px;font-weight:900;margin:5px 0 20px}
+.primary{background:var(--lime);color:#111;border-radius:40px;padding:16px}
+.secondary{background:#3c4933;color:white;border-radius:40px;padding:16px}
+.full{width:100%;margin-top:10px}
+input,select{width:100%;padding:14px;background:#111810;border:1px solid #48533b;border-radius:10px;color:white;margin:8px 0;font-size:15px}
+.stat{display:flex;justify-content:space-between;padding:13px 0;border-bottom:1px solid #30382c}
+.page{min-height:55vh}
+.page-title{text-align:center;font-size:28px;font-weight:900;margin:25px 0 10px}
+.page-sub{text-align:center;color:#aaa;margin-bottom:30px}
+.watch-button{font-size:19px;padding:21px}
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;background:#fff;color:#222;display:flex;justify-content:space-around;align-items:center;padding:10px 3px 17px;z-index:20;box-shadow:0 -3px 15px #0005}
+.nav-item{flex:1;text-align:center;background:none;color:#777;padding:4px 0;font-size:12px}
+.nav-item .nav-icon{font-size:23px;display:block;margin-bottom:4px}
+.nav-item.active{color:#111;font-weight:bold}
+.nav-item.active .nav-icon{color:#111}
+.nav-item.watch .nav-icon{background:var(--lime);width:54px;height:54px;border-radius:50%;display:grid;place-items:center;margin:-25px auto 4px;font-size:25px}
+.menu-panel{position:absolute;right:15px;top:65px;background:#20251c;border:1px solid #53623f;border-radius:13px;padding:8px;width:190px;z-index:30;box-shadow:0 8px 25px #000}
+.menu-panel button{display:block;background:none;color:white;text-align:left;padding:13px;width:100%}
+#message{overflow-wrap:anywhere;white-space:pre-wrap}
+.footer{text-align:center;color:#777;font-size:12px;padding:20px}
 </style>
 </head>
 
 <body>
 <div class="container">
 
-<div class="header">
- <div class="logo">♛ FREE EARNING WATCH</div>
- <div class="tagline">WATCH • EARN • WITHDRAW</div>
-</div>
-
 <div id="auth">
- <div class="card hero">
-  <h2>Welcome Back</h2>
-  <p class="muted">আপনার Earning Account-এ প্রবেশ করুন</p>
- </div>
-
+ <div class="header"><div class="logo">♛ FREE EARNING WATCH</div></div>
  <div class="card">
-  <h2 id="authTitle">Create Account</h2>
-
-  <div id="nameBox">
-   <input id="name" placeholder="আপনার নাম" maxlength="80">
-  </div>
-
-  <input id="email" type="email"
-   placeholder="Email address" autocomplete="email">
-
-  <input id="password" type="password"
-   placeholder="Password" autocomplete="current-password"
-   minlength="8">
-
-  <button class="full" id="submitAuth" onclick="submitAuth()">
-   Sign Up
-  </button>
-
-  <button class="full secondary" id="switchAuth"
-   onclick="switchMode()">
-   আগে অ্যাকাউন্ট আছে? Login করুন
-  </button>
-
-  <p class="muted">
-   নিজের ইমেইল ব্যবহার করুন। পাসওয়ার্ড কাউকে দেবেন না।
-  </p>
+  <h2 id="authTitle" class="green">Create Account</h2>
+  <div id="nameBox"><input id="name" placeholder="আপনার নাম" maxlength="80"></div>
+  <input id="email" type="email" placeholder="Email address">
+  <input id="password" type="password" placeholder="Password" minlength="8">
+  <button class="primary full" id="submitAuth" onclick="submitAuth()">Sign Up</button>
+  <button class="secondary full" id="switchAuth" onclick="switchMode()">আগে অ্যাকাউন্ট আছে? Login করুন</button>
  </div>
 </div>
 
 <div id="app" class="hidden">
 
- <div class="card hero">
-  <p class="gold">♛ PREMIUM MEMBER</p>
-  <p class="muted">স্বাগতম</p>
-  <h2 id="userName">User</h2>
-  <p class="muted">আপনার মোট ব্যালেন্স</p>
- </div>
-
- <div class="card balance-card">
-  <p class="gold">TOTAL POINTS</p>
-  <div class="balance">
-   <span id="points">0</span>
-  </div>
-  <p class="muted">আপনার বর্তমান পয়েন্ট</p>
- </div>
-
- <div class="nav">
-  <button onclick="showPage('home')">⌂ Home</button>
-  <button onclick="showPage('tasks')">▶ Tasks</button>
-  <button onclick="showPage('invite')">♧ Invite</button>
-  <button onclick="showPage('withdraw')">৳ Withdraw</button>
-  <button onclick="showPage('profile')">♙ Profile</button>
+<div class="header">
+ <div class="logo">♛ FREE EARNING WATCH</div>
+ <button class="menu-btn" onclick="toggleMenu()">☰</button>
+ <div id="menuPanel" class="menu-panel hidden">
+  <button onclick="showPage('profile');toggleMenu()">♙ My Profile</button>
+  <button onclick="showPage('profile');toggleMenu()">⚙ Account Settings</button>
   <button onclick="logout()">↪ Logout</button>
  </div>
+</div>
 
- <section id="home" class="card">
-  <h2>♛ Dashboard</h2>
-  <p class="muted">
-   Free Earning Watch-এ আপনাকে স্বাগতম।
-   আপনার অ্যাকাউন্ট থেকে বিভিন্ন অপশন ব্যবহার করুন।
-  </p>
+<div class="banner">
+ <div class="banner-icon">$</div>
+ <div>নতুন কাজ<br>ব্যালেন্সে পুরস্কার</div>
+ <div class="banner-arrow">›</div>
+</div>
 
-  <div class="stat">
-   <span>Account Status</span>
-   <span class="gold">Active</span>
-  </div>
+<div class="topline">
+ <div class="top-icons">
+  <div class="round-icon">✿</div>
+  <div class="round-icon white">♟</div>
+ </div>
+ <div>
+  <div class="small">ব্যালেন্স</div>
+  <div class="top-balance"><span id="topPoints">0</span> Points</div>
+ </div>
+ <div class="green">●</div>
+</div>
 
-  <div class="stat">
-   <span>Your Points</span>
-   <span class="gold" id="homePoints">0</span>
-  </div>
+<!-- HOME -->
+<section id="home" class="page">
+ <div class="card">
+  <p class="muted">স্বাগতম</p>
+  <h2 id="userName">User</h2>
+  <p class="muted">আপনার বর্তমান ব্যালেন্স</p>
+  <div class="balance green"><span id="points">0</span> Points</div>
+  <button class="primary full" onclick="showPage('withdraw')">উত্তোলন</button>
+  <button class="secondary full" onclick="showPage('rewards')">পুরস্কার দেখুন</button>
+ </div>
+ <div class="card">
+  <h2>আমার অ্যাকাউন্ট</h2>
+  <div class="stat"><span>Account Status</span><span class="green">Active</span></div>
+  <div class="stat"><span>Total Points</span><span class="green" id="homePoints">0</span></div>
+ </div>
+</section>
 
-  <button class="full" onclick="showPage('tasks')">
-   ▶ Explore Tasks
-  </button>
- </section>
-
- <section id="tasks" class="card hidden">
-  <h2>▶ Watch & Earn</h2>
-  <p class="muted">
-   এখানে অনুমোদিত বিজ্ঞাপন ও টাস্ক যোগ করা হবে।
-   বর্তমানে কোনো বাস্তব পুরস্কার চালু নেই।
-  </p>
-  <button class="full secondary" disabled>
-   Tasks Coming Soon
-  </button>
- </section>
-
- <section id="invite" class="card hidden">
-  <h2>♧ Invite Friends</h2>
+<!-- REFERRAL -->
+<section id="referral" class="page hidden">
+ <h1 class="page-title">Referral</h1>
+ <p class="page-sub">বন্ধুদের আমন্ত্রণ জানান</p>
+ <div class="card">
+  <h2>Invite Friends</h2>
   <p class="muted">আপনার User ID</p>
-
   <input id="refId" readonly>
+  <button class="primary full" onclick="copyRef()">Copy User ID</button>
+  <p class="muted">রেফারেল লিংক ও ১০% কমিশন চালুর কাজ এখনো বাকি।</p>
+ </div>
+</section>
 
-  <button class="full" onclick="copyRef()">
-   Copy User ID
-  </button>
+<!-- WATCH -->
+<section id="watch" class="page hidden">
+ <h1 class="page-title">YOUTUBE ভিউ</h1>
+ <p class="page-sub">ভিডিও ও বিজ্ঞাপন দেখে আয়ের ব্যবস্থা</p>
+ <div class="card" style="text-align:center;padding:35px 20px">
+  <div style="font-size:55px">▶</div>
+  <h2>Watch & Earn</h2>
+  <p class="muted">অনুমোদিত বিজ্ঞাপন ও ভিডিও টাস্ক এখানে যুক্ত করা হবে।</p>
+  <button class="primary full watch-button" disabled>ভিডিও দেখুন — Coming Soon</button>
+  <p class="muted">বর্তমানে কোনো বিজ্ঞাপন বা পুরস্কার চালু নেই।</p>
+ </div>
+</section>
 
-  <p class="muted">
-   রেফারেল লিংক ও ১০% কমিশনের ব্যবস্থা
-   পরবর্তী ধাপে যুক্ত করা হবে।
-  </p>
- </section>
-
- <section id="withdraw" class="card hidden">
-  <h2>৳ Withdraw</h2>
-
-  <p class="muted">
-   আপনার পয়েন্ট থেকে Withdrawal Request পাঠান।
-  </p>
-
-  <div class="stat">
-   <span>Available Points</span>
-   <strong class="gold" id="withdrawPoints">0</strong>
-  </div>
-
+<!-- WITHDRAW -->
+<section id="withdraw" class="page hidden">
+ <h1 class="page-title">উত্তোলন</h1>
+ <p class="page-sub">আপনার পয়েন্ট উত্তোলনের আবেদন করুন</p>
+ <div class="card">
+  <div class="stat"><span>Available Points</span><strong class="green" id="withdrawPoints">0</strong></div>
   <select id="method">
    <option value="bKash">bKash</option>
    <option value="Nagad">Nagad</option>
    <option value="USDT">USDT</option>
   </select>
+  <input id="account" placeholder="পেমেন্ট অ্যাকাউন্ট / ওয়ালেট">
+  <input id="amount" type="number" min="1" step="1" placeholder="পয়েন্ট">
+  <button class="primary full" onclick="submitWithdrawal()">Withdrawal Request</button>
+  <p class="muted">আপনার আবেদন Admin Panel-এ যাচাই করা হবে।</p>
+ </div>
+ <div class="card">
+  <h2>Withdrawal History</h2>
+  <p class="muted">আবেদনের ইতিহাস দেখানোর ব্যবস্থা পরবর্তী ধাপে যুক্ত হবে।</p>
+ </div>
+</section>
 
-  <input id="account"
-   placeholder="পেমেন্ট অ্যাকাউন্ট / ওয়ালেট">
+<!-- REWARDS -->
+<section id="rewards" class="page hidden">
+ <h1 class="page-title">Rewards</h1>
+ <p class="page-sub">আপনার পয়েন্ট ও পুরস্কার</p>
+ <div class="card">
+  <h2>My Points</h2>
+  <div class="balance green"><span id="rewardPoints">0</span></div>
+  <p class="muted">বর্তমান পয়েন্ট ব্যালেন্স</p>
+ </div>
+ <div class="card">
+  <h2>Special Rewards</h2>
+  <p class="muted">পুরস্কারের ব্যবস্থা এখনো তৈরি হচ্ছে।</p>
+ </div>
+</section>
 
-  <input id="amount" type="number" min="1"
-   placeholder="পয়েন্ট লিখুন">
-
-  <button class="full" type="button"
-   onclick="submitWithdrawal()">
-   ৳ Request Withdrawal
-  </button>
-
-  <p class="muted">
-   Withdrawal Request Admin Panel-এ যাচাই করা হবে।
-  </p>
- </section>
-
- <section id="profile" class="card hidden">
-  <h2>♙ My Profile</h2>
-
+<!-- PROFILE -->
+<section id="profile" class="page hidden">
+ <h1 class="page-title">My Profile</h1>
+ <div class="card">
+  <h2>Account Information</h2>
   <p id="profileEmail" class="muted"></p>
   <p id="profileId" class="muted"></p>
-
-  <button class="full secondary" onclick="loadProfile()">
-   Refresh Profile
-  </button>
- </section>
+  <button class="primary full" onclick="loadProfile()">Refresh Profile</button>
+  <button class="secondary full" onclick="logout()">Logout</button>
+ </div>
+</section>
 
 </div>
 
-<div class="card">
- <p id="message" class="muted" role="status"></p>
+<div class="card"><p id="message" class="muted" role="status"></p></div>
+<div class="footer">FREE EARNING WATCH © 2026</div>
 </div>
 
-<div class="footer">
- FREE EARNING WATCH © 2026
- <p>Premium Black & Gold Experience</p>
-</div>
-
+<!-- FIXED BOTTOM NAVIGATION -->
+<div id="bottomNav" class="bottom-nav hidden">
+ <button class="nav-item active" onclick="showPage('home',this)">
+  <span class="nav-icon">✿</span>হোম
+ </button>
+ <button class="nav-item" onclick="showPage('referral',this)">
+  <span class="nav-icon">♟</span>রেফারেল
+ </button>
+ <button class="nav-item watch" onclick="showPage('watch',this)">
+  <span class="nav-icon">$</span>WATCH
+ </button>
+ <button class="nav-item" onclick="showPage('withdraw',this)">
+  <span class="nav-icon">▣</span>উত্তোলন
+ </button>
+ <button class="nav-item" onclick="showPage('rewards',this)">
+  <span class="nav-icon">✿</span>Rewards
+ </button>
 </div>
 
 <script>
+const SUPABASE_URL="https://kzbvvkiepmyehwwdgvyf.supabase.co";
+const SUPABASE_KEY="sb_publishable_xDYCus-WXDxyP2JT2aKajQ_64z8EZR_";
 
-// Supabase Configuration
-const SUPABASE_URL =
-"https://kzbvvkiepmyehwwdgvyf.supabase.co";
+let db=null,currentUser=null,mode="signup";
+const $=id=>document.getElementById(id);
 
-const SUPABASE_KEY =
-"sb_publishable_xDYCus-WXDxyP2JT2aKajQ_64z8EZR_";
+function message(t){$("message").textContent=t}
 
-let db = null;
-let currentUser = null;
-let mode = "signup";
-
-const $ = id => document.getElementById(id);
-
-function message(text){
- $("message").textContent = text;
-}
-
-function configured(){
- return SUPABASE_URL.startsWith("https://") &&
- SUPABASE_KEY.length > 20;
-}
-
-if(configured() && window.supabase){
-
- db = window.supabase.createClient(
-  SUPABASE_URL,
-  SUPABASE_KEY
- );
+if(window.supabase){
+ db=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
  db.auth.onAuthStateChange((event,session)=>{
-  setTimeout(async()=>{
+  setTimeout(()=>{
    if(session?.user){
     currentUser=session.user;
-    await loadProfile();
+    loadProfile();
    }else{
     currentUser=null;
     $("auth").classList.remove("hidden");
     $("app").classList.add("hidden");
+    $("bottomNav").classList.add("hidden");
    }
   },0);
  });
 
  db.auth.getSession().then(({data,error})=>{
-  if(error) message(error.message);
+  if(error)message(error.message);
   else if(data.session){
    currentUser=data.session.user;
    loadProfile();
   }
  });
-
 }else{
- message("Supabase Configuration পরীক্ষা করুন।");
+ message("Supabase সংযোগ পাওয়া যায়নি।");
 }
 
 function switchMode(){
-
  mode=mode==="signup"?"login":"signup";
-
- $("authTitle").textContent=
- mode==="signup"?"Create Account":"Login";
-
- $("submitAuth").textContent=
- mode==="signup"?"Sign Up":"Login";
-
- $("switchAuth").textContent=
- mode==="signup"
- ?"আগে অ্যাকাউন্ট আছে? Login করুন"
- :"নতুন অ্যাকাউন্ট তৈরি করুন";
-
- $("nameBox").classList.toggle(
-  "hidden",mode==="login"
- );
-
+ $("authTitle").textContent=mode==="signup"?"Create Account":"Login";
+ $("submitAuth").textContent=mode==="signup"?"Sign Up":"Login";
+ $("switchAuth").textContent=mode==="signup"?"আগে অ্যাকাউন্ট আছে? Login করুন":"নতুন অ্যাকাউন্ট তৈরি করুন";
+ $("nameBox").classList.toggle("hidden",mode==="login");
  message("");
 }
 
 async function submitAuth(){
-
- if(!db){
-  message("Supabase সংযোগ নেই।");
-  return;
- }
-
+ if(!db){message("Supabase সংযোগ নেই।");return}
  const email=$("email").value.trim();
  const password=$("password").value;
  const name=$("name").value.trim();
 
- if(!email||!password){
-  message("Email ও Password পূরণ করুন।");
-  return;
- }
-
- if(password.length<8){
-  message("পাসওয়ার্ড কমপক্ষে ৮ অক্ষরের দিন।");
-  return;
- }
+ if(!email||password.length<8){message("সঠিক Email ও কমপক্ষে ৮ অক্ষরের Password দিন।");return}
+ if(mode==="signup"&&!name){message("আপনার নাম লিখুন।");return}
 
  $("submitAuth").disabled=true;
  message("অপেক্ষা করুন...");
 
  try{
-
   let result;
-
   if(mode==="signup"){
-
-   if(!name){
-    message("আপনার নাম লিখুন।");
-    return;
-   }
-
-   result=await db.auth.signUp({
-    email,
-    password,
-    options:{
-     data:{name}
-    }
-   });
-
-   if(result.error) throw result.error;
-
+   result=await db.auth.signUp({email,password,options:{data:{name}}});
+   if(result.error)throw result.error;
    if(result.data.session){
     currentUser=result.data.user;
     await loadProfile();
    }else{
-    message(
-     "অ্যাকাউন্ট তৈরি হয়েছে। ইমেইল নিশ্চিত করুন, তারপর Login করুন।"
-    );
+    message("অ্যাকাউন্ট তৈরি হয়েছে। ইমেইল নিশ্চিত করে Login করুন।");
    }
-
   }else{
-
-   result=await db.auth.signInWithPassword({
-    email,
-    password
-   });
-
-   if(result.error) throw result.error;
-
+   result=await db.auth.signInWithPassword({email,password});
+   if(result.error)throw result.error;
    currentUser=result.data.user;
    await loadProfile();
   }
-
- }catch(error){
-
-  message("সমস্যা: "+error.message);
-
+ }catch(e){
+  message("সমস্যা: "+e.message);
  }finally{
-
   $("submitAuth").disabled=false;
+ }
+}
 
+async function loadProfile(){
+ if(!db||!currentUser)return;
+
+ $("auth").classList.add("hidden");
+ $("app").classList.remove("hidden");
+ $("bottomNav").classList.remove("hidden");
+
+ $("userName").textContent=currentUser.user_metadata?.name||"User";
+ $("profileEmail").textContent="Email: "+(currentUser.email||"");
+ $("profileId").textContent="User ID: "+currentUser.id;
+ $("refId").value=currentUser.id;
+
+ try{
+  const {data,error}=await db.from("profiles")
+   .select("display_name,balance_points")
+   .eq("id",currentUser.id).single();
+
+  if(error)throw error;
+
+  const balance=data.balance_points??0;
+  ["points","topPoints","homePoints","withdrawPoints","rewardPoints"]
+   .forEach(id=>$(id).textContent=balance);
+
+  if(data.display_name)$("userName").textContent=data.display_name;
+  message("প্রোফাইল সফলভাবে লোড হয়েছে।");
+ }catch(e){
+  message("প্রোফাইল লোড হয়নি: "+e.message);
  }
 }
 
 async function submitWithdrawal(){
-
- if(!db||!currentUser){
-  message("আগে Login করুন।");
-  return;
- }
+ if(!db||!currentUser){message("আগে Login করুন।");return}
 
  const method=$("method").value;
  const wallet=$("account").value.trim();
  const points=Number($("amount").value);
 
- if(!wallet){
-  message("পেমেন্ট অ্যাকাউন্ট লিখুন।");
-  return;
- }
-
+ if(!wallet){message("পেমেন্ট অ্যাকাউন্ট লিখুন।");return}
  if(!Number.isSafeInteger(points)||points<=0){
-  message("সঠিক পূর্ণসংখ্যার পয়েন্ট লিখুন।");
-  return;
+  message("সঠিক পূর্ণসংখ্যার পয়েন্ট লিখুন।");return
  }
 
- if(!confirm(points+" পয়েন্টের Withdrawal Request জমা দেবেন?")){
-  return;
- }
+ if(!confirm(points+" পয়েন্টের Withdrawal Request জমা দেবেন?"))return;
 
  message("Request জমা হচ্ছে...");
 
- const {data,error}=await db.rpc(
-  "request_withdrawal",
-  {
-   p_method:method,
-   p_wallet:wallet,
-   p_points:points
-  }
- );
+ const {data,error}=await db.rpc("request_withdrawal",{
+  p_method:method,
+  p_wallet:wallet,
+  p_points:points
+ });
 
- if(error){
-  message("Request জমা হয়নি: "+error.message);
-  return;
- }
+ if(error){message("Request জমা হয়নি: "+error.message);return}
 
  $("account").value="";
  $("amount").value="";
-
  message("Request সফলভাবে জমা হয়েছে। Request ID: "+data);
-
  await loadProfile();
 }
 
-async function loadProfile(){
+function showPage(page,button){
+ const pages=["home","referral","watch","withdraw","rewards","profile"];
+ pages.forEach(id=>$(id).classList.toggle("hidden",id!==page));
 
- if(!db||!currentUser)return;
+ document.querySelectorAll(".nav-item").forEach(b=>b.classList.remove("active"));
 
- $("auth").classList.add("hidden");
- $("app").classList.remove("hidden");
-
- $("userName").textContent=
- currentUser.user_metadata?.name||"User";
-
- $("profileEmail").textContent=
- "Email: "+(currentUser.email||"");
-
- $("profileId").textContent=
- "User ID: "+currentUser.id;
-
- $("refId").value=currentUser.id;
-
- try{
-
-  const {data,error}=await db
-   .from("profiles")
-   .select("display_name,balance_points")
-   .eq("id",currentUser.id)
-   .single();
-
-  if(error)throw error;
-
-  const balance=data.balance_points??0;
-
-  $("points").textContent=balance;
-  $("homePoints").textContent=balance;
-  $("withdrawPoints").textContent=balance;
-
-  if(data.display_name){
-   $("userName").textContent=data.display_name;
-  }
-
-  message("প্রোফাইল সফলভাবে লোড হয়েছে।");
-
- }catch(error){
-
-  $("points").textContent="—";
-  message("প্রোফাইল লোড হয়নি: "+error.message);
-
+ if(button)button.classList.add("active");
+ else{
+  const map={home:0,referral:1,watch:2,withdraw:3,rewards:4};
+  const nav=document.querySelectorAll(".nav-item");
+  if(map[page]!==undefined)nav[map[page]].classList.add("active");
  }
+ window.scrollTo(0,0);
 }
 
-function showPage(page){
-
- [
-  "home",
-  "tasks",
-  "invite",
-  "withdraw",
-  "profile"
- ].forEach(id=>{
-  $(id).classList.toggle("hidden",id!==page);
- });
-
+function toggleMenu(){
+ $("menuPanel").classList.toggle("hidden");
 }
 
 async function copyRef(){
-
  try{
-
-  await navigator.clipboard.writeText(
-   $("refId").value
-  );
-
+  await navigator.clipboard.writeText($("refId").value);
   message("User ID কপি হয়েছে।");
-
  }catch{
-
   $("refId").select();
   message("ID নির্বাচন করা হয়েছে; Copy ব্যবহার করুন।");
-
  }
 }
 
 async function logout(){
-
  if(!db)return;
-
  const {error}=await db.auth.signOut();
-
- if(error){
-  message(error.message);
- }else{
+ if(error)message(error.message);
+ else{
   currentUser=null;
   $("app").classList.add("hidden");
   $("auth").classList.remove("hidden");
+  $("bottomNav").classList.add("hidden");
+  $("menuPanel").classList.add("hidden");
   message("আপনি Logout করেছেন।");
  }
-
 }
-
 </script>
 </body>
-  </html>
-    
+   </html>
+                              
