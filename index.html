@@ -156,7 +156,8 @@ input,select{width:100%;padding:14px;background:#111810;border:1px solid #48533b
    <option value="USDT">USDT</option>
   </select>
   <input id="account" placeholder="পেমেন্ট অ্যাকাউন্ট / ওয়ালেট">
-  <input id="amount" type="number" min="1" step="1" placeholder="পয়েন্ট">
+  <input id="amount" type="number" min="10000" step="1" placeholder="পয়েন্ট">
+  <p id="takaAmount">আনুমানিক পাবেন: ৳০ টাকা</p>
   <button class="primary full" onclick="submitWithdrawal()">Withdrawal Request</button>
   <p class="muted">আপনার আবেদন Admin Panel-এ যাচাই করা হবে।</p>
  </div>
@@ -408,6 +409,14 @@ async function logout(){
   message("আপনি Logout করেছেন।");
  }
 }
+ $("amount").addEventListener("input",function(){
+ const points=Number(this.value);
+ const taka=Number.isSafeInteger(points)&&points>0
+   ? points/100 : 0;
+
+ $("takaAmount").textContent=
+   "আনুমানিক পাবেন: ৳"+taka.toLocaleString("en-BD")+" টাকা";
+});
 </script>
 </body>
    </html>
