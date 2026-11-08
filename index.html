@@ -338,8 +338,14 @@ async function submitWithdrawal(){
  const points=Number($("amount").value);
 
  if(!wallet){message("পেমেন্ট অ্যাকাউন্ট লিখুন।");return}
- if(!Number.isSafeInteger(points)||points<=0){
-  message("সঠিক পূর্ণসংখ্যার পয়েন্ট লিখুন।");return
+  if(!wallet){
+  message("পেমেন্ট অ্যাকাউন্ট লিখুন।");
+  return;
+ }
+
+ if(!Number.isSafeInteger(points)||points<10000){
+  message("Minimum Withdrawal ১০,০০০ পয়েন্ট।");
+  return;
  }
 
  if(!confirm(points+" পয়েন্টের Withdrawal Request জমা দেবেন?"))return;
