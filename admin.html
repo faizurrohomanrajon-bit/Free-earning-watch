@@ -297,22 +297,8 @@ async function updateStatus(id,status){
   await loadData();
   }
   
-  if(!confirm("Change request status to " + status + "?")) return;
-
-  const {error} = await db
-    .from("withdrawals")
-    .update({status})
-    .eq("id",id)
-    .eq("status","pending");
-
-  if(error){
-    alert("Update failed: " + error.message);
-    return;
-  }
-
-  alert("Status updated.");
-  await loadData();
-}
+  
+  
 
 async function logout(){
   await db.auth.signOut();
