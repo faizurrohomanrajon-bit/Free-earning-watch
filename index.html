@@ -418,6 +418,20 @@ async function logout(){
    "আনুমানিক পাবেন: ৳"+taka.toLocaleString("en-BD")+" টাকা";
 });
 </script>
+ <script>
+document.addEventListener("DOMContentLoaded", function () {
+  const text = document.createElement("p");
+  text.textContent = "Minimum Withdrawal: 10,000 Points";
+  text.style.color = "#4ade80";
+  text.style.fontWeight = "bold";
+  text.style.textAlign = "center";
+
+  const withdrawal = document.querySelector("#withdrawal");
+  if (withdrawal) {
+    withdrawal.prepend(text);
+  }
+});
+ </script>
 </body>
    </html>
                               
