@@ -177,8 +177,10 @@ input,select{width:100%;padding:14px;background:#111810;border:1px solid #48533b
   <p class="muted">বর্তমান পয়েন্ট ব্যালেন্স</p>
  </div>
  <div class="card">
-  <h2>Special Rewards</h2>
-  <p class="muted">পুরস্কারের ব্যবস্থা এখনো তৈরি হচ্ছে।</p>
+  <h2>Withdrawal History</h2>
+  <div id="withdrawalHistory">
+    <p class="muted">Withdrawal History লোড হচ্ছে...</p>
+  </div>
  </div>
 </section>
 
@@ -334,7 +336,66 @@ if(onlineError) console.error("Online tracking:",onlineError);
  }catch(e){
   message("প্রোফাইল লোড হয়নি: "+e.message);
  }
+ await loadWithdrawalHistory();
 }
+ 
+async function loadWithdrawalHistory(){
+ const box=$("withdrawalHistory");
+
+ if(!box||!db||!currentUser)return;
+
+ box.textContent="Withdrawal History লোড হচ্ছে...";
+
+ try{
+  const {data,error}=await db
+   .from("withdrawals")
+   .select("id,method,wallet,points,status,rejection_reason,created_at")
+   .eq("user_id",currentUser.id)
+   .order("created_at",{ascending:false});
+
+  if(error)throw error;
+
+  box.innerHTML="";
+
+  if(!data||data.length===0){
+   box.textContent="এখনো কোনো Withdrawal Request নেই।";
+   return;
+  }
+
+  data.forEach(item=>{
+   const card=document.createElement("div");
+   card.className="card";
+
+   const details=[
+    "Withdrawal ID: "+item.id,
+    "Points: "+item.points,
+    "Method: "+item.method,
+    "Wallet: "+item.wallet,
+    "Status: "+item.status.toUpperCase(),
+    "Date: "+new Date(item.created_at).toLocaleString()
+   ];
+
+   if(item.rejection_reason){
+    details.push("Reason: "+item.rejection_reason);
+   }
+
+   details.forEach(line=>{
+    const p=document.createElement("p");
+    p.textContent=line;
+    card.appendChild(p);
+   });
+
+   box.appendChild(card);
+  });
+
+ }catch(e){
+  console.error("Withdrawal History:",e);
+  box.textContent="Withdrawal History লোড হয়নি: "+e.message;
+ }
+ }
+ 
+ 
+ 
 
 async function submitWithdrawal(){
  if(!db||!currentUser){message("আগে Login করুন।");return}
