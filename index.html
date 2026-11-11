@@ -304,6 +304,14 @@ async function submitAuth(){
 async function loadProfile(){
  if(!db||!currentUser)return;
 
+ // Update user's last online time
+ const {error: onlineError}=await db
+  .from("profiles")
+  .update({last_seen_at:new Date().toISOString()})
+  .eq("id",currentUser.id);
+
+ if(onlineError) console.error("Online tracking:",onlineError);
+ 
  $("auth").classList.add("hidden");
  $("app").classList.remove("hidden");
  $("bottomNav").classList.remove("hidden");
