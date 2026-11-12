@@ -540,7 +540,8 @@ async function loadWithdrawals(filter="all"){
    div.appendChild(reason);
   }
 
-  if(r.status==="pending"){
+  
+if(r.status==="pending"){
    const approve=document.createElement("button");
    approve.textContent="Approve";
    approve.className="approve";
@@ -552,7 +553,16 @@ async function loadWithdrawals(filter="all"){
    reject.onclick=()=>updateStatus(r.id,"rejected");
 
    div.append(approve,reject);
-  }
+
+  }else if(r.status==="approved"){
+   const success=document.createElement("button");
+   success.textContent="Mark SUCCESS";
+   success.className="approve";
+   success.onclick=()=>completeWithdrawal(r.id);
+
+   div.append(success);
+}
+  
 
   list.appendChild(div);
  });
@@ -594,6 +604,25 @@ async function updateStatus(id,status){
  await loadDashboard();
 }
 
+async function completeWithdrawal(id){
+ if(!confirm("এই Withdrawal SUCCESS করবেন?"))return;
+
+ const {data,error}=await db.rpc(
+  "admin_complete_withdrawal",
+  {
+   p_withdrawal_id:id
+  }
+ );
+
+ if(error){
+  alert("SUCCESS করা যায়নি: "+error.message);
+  return;
+ }
+
+ alert(data);
+ await loadDashboard();
+ }
+ 
 async function logout(){
  await db.auth.signOut();
  currentUser=null;
