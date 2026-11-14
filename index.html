@@ -162,11 +162,11 @@ input,select{width:100%;padding:14px;background:#111810;border:1px solid #48533b
   <p class="muted">আপনার আবেদন Admin Panel-এ যাচাই করা হবে।</p>
  </div>
  <div class="card">
-  <h2>Withdrawal History</h2>
-  <div id="withdrawalHistory">
-    <p class="muted">Withdrawal History লোড হচ্ছে...</p>
+  <h2>Points History</h2>
+  <div id="pointsHistory">
+    <p class="muted">Points History লোড হচ্ছে...</p>
   </div>
-   </div>
+ </div>
 </section>
 
 <!-- REWARDS -->
@@ -339,6 +339,7 @@ if(onlineError) console.error("Online tracking:",onlineError);
   message("প্রোফাইল লোড হয়নি: "+e.message);
  }
  await loadWithdrawalHistory();
+ await loadPointsHistory();
 }
  
 async function loadWithdrawalHistory(){
@@ -397,7 +398,51 @@ async function loadWithdrawalHistory(){
  }
  
  
- 
+async function loadPointsHistory(){
+ const box=$("pointsHistory");
+
+ if(!box||!db||!currentUser)return;
+
+ box.textContent="Points History লোড হচ্ছে...";
+
+ try{
+  const {data,error}=await db
+   .from("points_history")
+   .select("points_change,reason,created_at")
+   .eq("user_id",currentUser.id)
+   .order("created_at",{ascending:false});
+
+  if(error)throw error;
+
+  box.innerHTML="";
+
+  if(!data||data.length===0){
+   box.textContent="এখনো কোনো Points History নেই।";
+   return;
+  }
+
+  data.forEach(item=>{
+   const card=document.createElement("div");
+   card.className="card";
+
+   [
+    "Points: "+item.points_change,
+    "Reason: "+item.reason,
+    "Date: "+new Date(item.created_at).toLocaleString()
+   ].forEach(line=>{
+    const p=document.createElement("p");
+    p.textContent=line;
+    card.appendChild(p);
+   });
+
+   box.appendChild(card);
+  });
+
+ }catch(e){
+  console.error("Points History:",e);
+  box.textContent="Points History লোড হয়নি: "+e.message;
+ }
+ } 
 
 async function submitWithdrawal(){
  if(!db||!currentUser){message("আগে Login করুন।");return}
