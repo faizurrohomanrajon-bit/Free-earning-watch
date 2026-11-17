@@ -124,10 +124,10 @@ input,select{width:100%;padding:14px;background:#111810;border:1px solid #48533b
  <p class="page-sub">বন্ধুদের আমন্ত্রণ জানান</p>
  <div class="card">
   <h2>Invite Friends</h2>
-  <p class="muted">আপনার User ID</p>
+  <p class="muted">আপনার Referral Link</p>
   <input id="refId" readonly>
-  <button class="primary full" onclick="copyRef()">Copy User ID</button>
-  <p class="muted">রেফারেল লিংক ও ১০% কমিশন চালুর কাজ এখনো বাকি।</p>
+  <button class="primary full" onclick="copyRef()">Copy Referral Link</button>
+  <p class="muted">বন্ধুকে আপনার Referral Link পাঠান। ১০% কমিশন ব্যবস্থা এখনো চালু হয়নি।</p>
  </div>
 </section>
 
@@ -231,6 +231,20 @@ const SUPABASE_URL="https://kzbvvkiepmyehwwdgvyf.supabase.co";
 const SUPABASE_KEY="sb_publishable_xDYCus-WXDxyP2JT2aKajQ_64z8EZR_";
 
 let db=null,currentUser=null,mode="signup";
+const REFERRAL_STORAGE_KEY = "few_referrer_id";
+
+const referralFromUrl =
+ new URLSearchParams(window.location.search).get("ref");
+
+if(
+ referralFromUrl &&
+ /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(referralFromUrl)
+){
+ localStorage.setItem(
+  REFERRAL_STORAGE_KEY,
+  referralFromUrl
+ );
+ }
 const $=id=>document.getElementById(id);
 
 function message(t){$("message").textContent=t}
@@ -272,41 +286,97 @@ function switchMode(){
  message("");
 }
 
+async function applyPendingReferral(){
+ if(!db||!currentUser)return;
+
+ const referrerId=localStorage.getItem("few_referrer_id");
+
+ if(!referrerId)return;
+
+ if(referrerId===currentUser.id){
+  localStorage.removeItem("few_referrer_id");
+  return;
+ }
+
+ const {data,error}=await db.rpc("set_referrer",{
+  p_referrer:referrerId
+ });
+
+ if(error){
+  console.error("Referral:",error);
+  message("Referral সংরক্ষণ হয়নি: "+error.message);
+  return;
+ }
+
+ localStorage.removeItem("few_referrer_id");
+
+ if(data===true){
+  message("Referral সফলভাবে সংরক্ষিত হয়েছে।");
+ }
+}
+
 async function submitAuth(){
- if(!db){message("Supabase সংযোগ নেই।");return}
+ if(!db){
+  message("Supabase সংযোগ নেই।");
+  return;
+ }
+
  const email=$("email").value.trim();
  const password=$("password").value;
  const name=$("name").value.trim();
 
- if(!email||password.length<8){message("সঠিক Email ও কমপক্ষে ৮ অক্ষরের Password দিন।");return}
- if(mode==="signup"&&!name){message("আপনার নাম লিখুন।");return}
+ if(!email||password.length<8){
+  message("সঠিক Email ও কমপক্ষে ৮ অক্ষরের Password দিন।");
+  return;
+ }
+
+ if(mode==="signup"&&!name){
+  message("আপনার নাম লিখুন।");
+  return;
+ }
 
  $("submitAuth").disabled=true;
  message("অপেক্ষা করুন...");
 
  try{
   let result;
+
   if(mode==="signup"){
-   result=await db.auth.signUp({email,password,options:{data:{name}}});
+   result=await db.auth.signUp({
+    email,
+    password,
+    options:{data:{name}}
+   });
+
    if(result.error)throw result.error;
+
    if(result.data.session){
     currentUser=result.data.user;
     await loadProfile();
+    await applyPendingReferral();
    }else{
     message("অ্যাকাউন্ট তৈরি হয়েছে। ইমেইল নিশ্চিত করে Login করুন।");
    }
+
   }else{
-   result=await db.auth.signInWithPassword({email,password});
+   result=await db.auth.signInWithPassword({
+    email,
+    password
+   });
+
    if(result.error)throw result.error;
+
    currentUser=result.data.user;
    await loadProfile();
+   await applyPendingReferral();
   }
+
  }catch(e){
   message("সমস্যা: "+e.message);
  }finally{
   $("submitAuth").disabled=false;
  }
-}
+ }
 
 async function loadProfile(){
  if(!db||!currentUser)return;
@@ -323,7 +393,11 @@ if(onlineError) console.error("Online tracking:",onlineError);
  $("userName").textContent=currentUser.user_metadata?.name||"User";
  $("profileEmail").textContent="Email: "+(currentUser.email||"");
  $("profileId").textContent="User ID: "+currentUser.id;
- $("refId").value=currentUser.id;
+ $("refId").value =
+ window.location.origin +
+ window.location.pathname +
+ "?ref=" +
+ encodeURIComponent(currentUser.id);
 
  try{
   const {data,error}=await db.from("profiles")
@@ -514,14 +588,26 @@ function toggleMenu(){
 }
 
 async function copyRef(){
- try{
-  await navigator.clipboard.writeText($("refId").value);
-  message("User ID কপি হয়েছে।");
- }catch{
-  $("refId").select();
-  message("ID নির্বাচন করা হয়েছে; Copy ব্যবহার করুন।");
+ if(!currentUser){
+  message("আগে Login করুন।");
+  return;
  }
-}
+
+ const referralLink =
+  window.location.origin +
+  window.location.pathname +
+  "?ref=" +
+  encodeURIComponent(currentUser.id);
+
+ try{
+  await navigator.clipboard.writeText(referralLink);
+  message("Referral Link কপি হয়েছে।");
+ }catch{
+  $("refId").value=referralLink;
+  $("refId").select();
+  message("লিংক নির্বাচন করা হয়েছে; Copy ব্যবহার করুন।");
+ }
+ }
 
 async function logout(){
  if(!db)return;
